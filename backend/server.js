@@ -13,7 +13,7 @@ mongoose.connect(db,
         useUnifiedTopology: true,
         useCreateIndex: true,
         useFindAndModify: false,
-    }    
+    }
 ).then(() => {
     console.log('Database connected');
 }).catch(() => {
