@@ -6,7 +6,15 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { protect } = require('../middleware/auth');
 
+
+/**
+ * 
+ * @param {User} user - User Object
+ * @param {Number} statusCode - HTTP response status code
+ * @param {HTTP Response} res - HTTP response when gets a HTTP Request
+ */
 const sendToken = (user, statusCode, res) => {
+    // Get user id
     const { id } = user;
 
     // JWT Sign for token
@@ -14,12 +22,15 @@ const sendToken = (user, statusCode, res) => {
         expiresIn: process.env.JWT_EXPIRES_IN
     });
 
+    // Set cookie options
     const cookieOptions = {
         expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 25 * 60 * 60 * 1000),
         httpOnly: true
     }
+
     // cookie will send encrypt version (only in https)
     if(process.env.NODE_ENV === 'production') cookieOptions.secure = true;
+    // Set cookie jwt (additional security)
     res.cookie('jwt', token, cookieOptions);
 
     // Remove password from the output
