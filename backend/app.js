@@ -7,6 +7,10 @@ const compression = require('compression');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cookieParser = require('cookie-parser');
+
+// API
+const authRouter = require('./api/auth');
 
 /*
 ===================
@@ -19,13 +23,16 @@ app.use(compression());
 app.use(helmet());
 
 // Development logging
-if(process.env.NODE_ENV === 'development') app.use(morgan('tiny'));
+if(process.env.NODE_ENV === 'development') app.use(morgan('dev'));
 
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
 // Data sanitization against XSS (prevent HTML Codes)
 app.use(xss());
+
+// able to read cookie in the body
+app.use(cookieParser());
 
 // Body parser, reading data from the body into the req.body (limit 10kb)
 app.use(express.json({ limit: '10kb' }));
@@ -35,6 +42,13 @@ app.use(express.urlencoded({ extended: true }));
 
 // Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+/*
+==============
+    ROUTES
+==============
+*/
+app.use('/api/v1/auth', authRouter);
 
 // Global error handling this means the response cycle didn't make it if we reach this point.
 app.all('*', (req, res, next) => {
