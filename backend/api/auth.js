@@ -11,7 +11,7 @@ const { protect } = require('../middleware/auth');
  * 
  * @param {User} user - User Object
  * @param {Number} statusCode - HTTP response status code
- * @param {HTTP Response} res - HTTP response when gets a HTTP Request
+ * @param {HTTP Response} res - HTTP response when gets an HTTP Request
  */
 const sendToken = (user, statusCode, res) => {
     // Get user id
