@@ -5,6 +5,12 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    likes: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: 'User'
+        }
+    ],
     post: {
         type: mongoose.Schema.ObjectId,
         ref: 'Post'
@@ -17,10 +23,6 @@ const commentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-},
-{
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true }
 });
 
 const Comment = mongoose.model('Comment', commentSchema);
