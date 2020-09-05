@@ -12,7 +12,7 @@ router.use('/:pid/comments', commentRouter);
 // @desc    Get all Posts
 // @access  Private
 router.get('/', protect, async (req, res) => {
-    const posts = await Post.find({}).populate('comments');
+    const posts = await Post.find({}).populate('comments').sort({ date: -1 });
 
     res.status(200).json({
         posts
@@ -56,17 +56,22 @@ router.delete('/:pid', protect, async (req, res) => {
 // @desc    Like a post
 // @access  Private
 router.patch('/:pid/like', protect, async (req, res) => {
+    const user = {
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        _id: req.user.id
+    };
     // Get the post
     const post = await Post.findById(req.params.pid);
     const { likes } = post;
     // Return an error message if post already like
     if(likes.includes(req.user.id)) return res.status(400).json({ errors: [{ msg: 'You already liked this post.' }]})
     // Push the user id and save
-    likes.unshift(req.user.id);
+    likes.unshift(user);
     await post.save();
 
     res.status(200).json({
-        post
+        user
     });
 });
 
@@ -79,13 +84,13 @@ router.patch('/:pid/unlike', protect, async (req, res) => {
     const { likes } = post;
 
     // Find the user index
-    const userIndex = likes.findIndex(id => req.user.id === id);
-    // Remove user from likes
-    likes.splice(userIndex, 1);
+    const userIndex = likes.findIndex(id => req.user.id === id.toString());
+    // Remove user from likes and return removed post
+    const removed = likes.splice(userIndex, 1);
 
     await post.save();
     res.status(200).json({
-        post
+        post: removed
     });
 });
 

@@ -25,7 +25,7 @@ postSchema.virtual('comments', {
     // field names
     foreignField: 'post',
     localField: '_id'
-})
+});
 
 const Post = mongoose.model('Post', postSchema);
 

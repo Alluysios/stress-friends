@@ -17,7 +17,7 @@ exports.protect = async(req, res, next) => {
     try {
         // decode jwt and check if current user exist
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const currentUser = await User.findById(decoded.id);
+        const currentUser = await User.findById(decoded.id).select('-password');
         if(!currentUser) return res.status(401).json({ errors: [{ msg: 'User belong to this token does no longer exist' }]});
 
         // Grant access to authenticated routes
