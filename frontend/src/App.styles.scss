@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+*,
+*::after,
+*::before {
+    box-sizing: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    line-height: 1.7;
+    height: 100%;
+    background-color: #1c1e21;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    padding-top: 8rem;
+    max-width: 99.6rem;
+    margin: 0 auto;
+}
+
+@media only screen and (max-width: 896px) {
+    .container {
+        padding: 2rem 0;
+    }
+}
+
+.divider {
+    width: 85%;
+    color: #BDBDBD;
+    margin: 5rem auto;
+}
+
+.group {
+    margin: 0 1rem;
+}
+
+.fluid {
+    max-width: 100%;
+}
+
+.btn {
+    cursor: pointer;
+    color: #FFFFFF;
+    padding: 6px 12px;
+    &-edit {
+        background-color: #0275d8;
+    }
+
+    &-delete {
+        background-color: #d9534f;
+    }
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    font-weight: 700;
+    
+    &-small {
+        display: inline-block;
+        padding-right: 6px;
+        color: #FF5722;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
+
+.flex {
+    display: flex;
+}
+
+h2 {
+    font-size: 2.5rem;
+    color: #c8e6c9;
+}
+
+.hidden {
+    display: none;
+}

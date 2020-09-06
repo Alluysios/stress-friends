@@ -1,0 +1,51 @@
+.form {
+    padding: 3rem;
+    border-radius: 12px;
+    background-color: #292929;
+    & .form-group-container {
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    & .group-buttons {
+        width: 100%;
+        text-align: right;
+    }
+
+    & .content {
+        width: 100%;
+        border-radius: 12px;
+        height: 10rem;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        padding: 1rem;
+        outline: none;
+        resize: none;
+    }
+
+    & .file {
+        width: 20rem;
+    }
+
+    & .button {
+        background-color: #FF5722;
+        color: #ffffff;
+        border: none;
+        border-radius: 3px;
+        padding: 8px 24px;
+        font-size: 1.7rem;
+        font-weight: 700;
+        margin-top: 8px;
+        overflow-y: auto;
+        margin-left: auto;
+    }
+}
+
+.user {
+    &-img {
+        width: 8rem;
+        height: 8rem;
+        border-radius: 50%;
+        margin-right: 1rem;
+        margin-bottom: 2rem;
+    }
+}

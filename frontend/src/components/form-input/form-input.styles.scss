@@ -1,0 +1,25 @@
+.form {
+    &-group {
+        margin: 1rem 0;
+    }
+
+    &-group:first-child {
+        margin-top: 0;
+    }
+
+    &-label {
+        font-size: 1.6rem;
+        display: block;
+        color: #FFFFFF;
+        margin-bottom: 6px;
+    }
+    
+    &-input {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 1.2rem;
+        border-radius: 6px;
+    }
+    
+}

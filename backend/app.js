@@ -12,7 +12,7 @@ const cookieParser = require('cookie-parser');
 // API
 const authRouter = require('./api/auth');
 const postRouter = require('./api/posts');
-const commentRouter = require('./api/comment');
+const userRouter = require('./api/users');
 
 /*
 ===================
@@ -53,6 +53,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 */
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/posts', postRouter);
+app.use('/api/v1/users', userRouter);
 
 // Global error handling this means the response cycle didn't make it if we reach this point.
 app.all('*', (req, res, next) => {
