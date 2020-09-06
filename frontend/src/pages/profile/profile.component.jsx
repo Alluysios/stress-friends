@@ -1,31 +1,56 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
+import { connect } from 'react-redux';
 import './profile.styles.scss';
-import UserPost from '../../components/user-post/user-post.component';
 
-const Profile = () => {
+import PostForm from '../../components/post-form/post-form.component';
+import PostItem from '../../components/post-item/post-item.component';
+// Actions
+import { getAllPosts } from '../../actions/posts.action';
+
+const Profile = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
+    useEffect(() => {
+        getAllPosts();
+    }, [getAllPosts])
+    
+    const userPosts = posts.filter(post => post.user._id === user._id);
+
     return (
         <Fragment>
             <div className='profile'>
                 <div className="profile-user">
-                    <img src="/me.jpg" alt="profile img" className='profile-user-img' />
-                    <h3 className='profile-user-name'>Alluysios Arriba</h3>
-                    <p className='profile-user-bio'>I live to code</p>
+                    <img src={`/uploads/users/${user.image}`} alt="profile img" className='profile-user-img' />
+                    <h3 className='profile-user-name'>{`${user.firstname} ${user.lastname}`}</h3>
+                    <p className='profile-user-bio'>{user.bio}</p>
                     <hr className="divider"/>
                 </div>
 
                 <div className="profile-about">
-                    <h4 className='profile-about-heading'> About me </h4>
-                    <div className='profile-about-item'>Joined: September 5, 2020</div>
-                    <hr></hr>
-                    <div className='profile-about-item'>Hobby: Coding</div>
+                    <h4 className='profile-about-heading'>About me</h4>
+                    <div className='profile-about-item'>Joined: {user.date}</div>
+                    <div className='profile-about-item'>Status: {user.status}</div>
+                    <div className='profile-about-item'>Hobby: {user.hobby.join(',')}</div>
                 </div>
                 <div className="profile-posts">
-                    {/*TODO: loop post item here*/ }
-                    <UserPost />
+                    <PostForm />
+                    {
+                        !userPosts ? <div> Loading... </div>
+                        :
+                        userPosts.map(post =>
+                            <Fragment key={post._id}>
+                                <PostItem post={post} />
+                            </Fragment>
+                        )
+                    }
+                    <hr className='divider'></hr>
                 </div>
             </div>
         </Fragment>
     )
 }
 
-export default Profile;
+const mapStateToProps = state => ({
+    posts: state.post,
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, { getAllPosts })(Profile);

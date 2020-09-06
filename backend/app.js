@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 // API
 const authRouter = require('./api/auth');
@@ -43,9 +44,10 @@ app.use(express.json({ limit: '10kb' }));
 // parse data from urlencoded form (files), {extended: true} = pass complex data
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
+app.options('*', cors());
 // Serve static files
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/uploads', express.static('uploads'))
 /*
 ==============
     ROUTES

@@ -6,7 +6,6 @@ const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { protect } = require('../middleware/auth');
 
-
 /**
  * 
  * @param {User} user - User Object
@@ -71,7 +70,6 @@ router.post('/signUp', [
     // Check if user exist and return error msg if it does
     const checkUser = await User.findOne({ email: req.body.email });
     if(checkUser) return res.status(400).json({ errors: [{ msg: 'Email already exist' }]})
-
     // Sign Up User
     const { firstname, lastname, email, password } = req.body;
     const user = await User.create({
@@ -79,13 +77,13 @@ router.post('/signUp', [
     });
 
     // Send token
-    sendToken(user, 401, res);
+    sendToken(user, 201, res);
 });
 
 // @route   POST api/v1/login
 // @desc    Logins a user
 // @access  public
-router.post('/login', async(req, res) => {
+router.post('/signIn', async(req, res) => {
     const { email, password } = req.body;
     // check if email and password exists
     // msg: incorrect email and password (security reasons)

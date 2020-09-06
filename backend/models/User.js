@@ -16,10 +16,23 @@ const userSchema = new mongoose.Schema({
         max: 32,
         required: true
     },
+    bio: String,
+    hobby: [String],
+    status: {
+        type: String,
+        enum: {
+            values: ['Married', 'Happily Married', 'Single', 'Just Divorced', 'Complicated', 'In a relationship', 'I Hate My Life'],
+            message: 'Status available: Married, Happily Married, Single, Just Divorced, Complicated, In a relationship, I Hate My Life'
+        }
+    },
     email: {
         type: String,
         unique: true,
         required: true
+    },
+    image: {
+        type: String,
+        default: 'default.jpg'
     },
     password: {
         type: String,

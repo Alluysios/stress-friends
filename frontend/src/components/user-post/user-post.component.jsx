@@ -9,37 +9,37 @@ const UserPost = () => {
     return (
         <div>
             <PostForm />
-            <div className='post'>
-                <div className="post-user">
-                    <img src="/me.jpg" alt="user temp" className="post-user-img"/>
+            <div className='posts'>
+                <div className="posts-user">
+                    <img src="/me.jpg" alt="user temp" className="posts-user-img"/>
                     <div className="group">
-                        <span className="post-user-name">Alluysios Arriba</span>
-                        <span className="post-user-date">Posted: January 20, 2020</span>
+                        <span className="posts-user-name">Alluysios Arriba</span>
+                        <span className="posts-user-date">Postsed: January 20, 2020</span>
                     </div>
-                    <div className="post-owner">
+                    <div className="posts-owner">
                         <span className="btn btn-edit">Edit</span>
                         <span className="btn btn-delete">Delete</span>
                     </div>
                 </div>
 
-                <div className="post-container">
-                    <div className="post-content">
+                <div className="posts-container">
+                    <div className="posts-content">
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora quo blanditiis consectetur atque id ad, sed beatae perferendis consequuntur at voluptate unde alias nisi ea ut nobis a! Eveniet, inventore.
-                        <span className="post-date">January 19, 1997</span>
+                        <span className="posts-date">January 19, 1997</span>
                     </div>
 
-                    <div className="post-img-box">
-                        <Link to="!#" className='post-image-link'>
-                            <img src="/bg.jpg" alt="post img" className="post-img"/>
+                    <div className="posts-img-box">
+                        <Link to="!#" className='posts-image-link'>
+                            <img src="/bg.jpg" alt="posts img" className="posts-img"/>
                         </Link>
                     </div>
-                    <div className="post-options">
-                        <span className="post-options-like">Like</span>
-                        <span className="post-options-comment">Comment</span>
+                    <div className="posts-options">
+                        <span className="posts-options-like">Like</span>
+                        <span className="posts-options-comment">Comment</span>
                     </div>
                 </div>
-                <div className="post-comment-container">
-                    <span className='post-like-count'>Likes: 23</span>
+                <div className="posts-comment-container">
+                    <span className='posts-like-count'>Likes: 23</span>
                     <CommentItem />
                     <CommentForm />
                 </div>

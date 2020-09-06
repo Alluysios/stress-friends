@@ -1,4 +1,4 @@
-.post {
+.posts {
     font-size: 1.5rem;
     background-color: #292b2c;
     color: #FFFFFF;
@@ -78,8 +78,8 @@
     }
 
     &-user-img {
-        width: 8rem;
-        height: 8rem;
+        width: 6rem;
+        height: 6rem;
         border-radius: 50%;
         object-fit: cover;
         object-position: center;

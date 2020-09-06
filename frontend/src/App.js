@@ -1,23 +1,33 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import './App.styles.scss';
 import { Route, Switch } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import store from './store';
+
+import { userLoad } from './actions/auth.action';
 
 import Header from './components/header/header.component';
-import Posts from './pages/posts/posts.component';
-import Account from './pages/profile/profile.component';
+import Profile from './pages/profile/profile.component';
 import Settings from './pages/settings/settings.component';
 import SignInSignUp from './pages/signin-signup/signin-signup.component';
+import Landing from './pages/landing/landing.component';
+import PostView from './components/post-view/post-view.component';
+import ProtectedRoute from './components/protected-route/protected-route.component';
 
 const App = () => {
+    useEffect(() => {
+        store.dispatch(userLoad());
+    }, [])
     return (
         <Fragment>
             <Header />
             <div className="container">
                 <Switch>
-                    <Route exact path='/' component={Posts} />
-                    <Route path='/account' component={Account} />
-                    <Route path='/settings' component={Settings} />
-                    <Route path='/signin' component={SignInSignUp} />
+                    <ProtectedRoute exact path='/' component={Landing} />
+                    <ProtectedRoute exact path='/account' component={Profile} />
+                    <ProtectedRoute exact path='/settings' component={Settings} />
+                    <Route exact path='/auth' component={SignInSignUp} />
+                    <ProtectedRoute exact path='/post/:pid' component={PostView} />
                 </Switch>
             </div>
         </Fragment>

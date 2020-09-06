@@ -1,7 +1,9 @@
 const express = require('express');
 const Post = require('../models/Post');
 const { protect } = require('../middleware/auth');
+const { resizeUploadedImages, uploadImages } = require('../middleware/uploader');
 const commentRouter = require('./comment');
+const { populate } = require('../models/Post');
 
 const router = express.Router();
 
@@ -12,8 +14,18 @@ router.use('/:pid/comments', commentRouter);
 // @desc    Get all Posts
 // @access  Private
 router.get('/', protect, async (req, res) => {
-    const posts = await Post.find({}).populate('comments').sort({ date: -1 });
+    const posts = await Post.find({}).populate({
+        path: 'comments',
+        populate: {
+            path: 'user replies',
+            select: 'firstname lastname image',
+            populate: {
+                path: 'user',
+                select: 'firstname lastname image'
+            }
 
+        }
+    }).populate({ path: 'user', select:'firstname lastname image' }).sort({ date: -1 });
     res.status(200).json({
         posts
     });
@@ -22,11 +34,20 @@ router.get('/', protect, async (req, res) => {
 // @route   POST /
 // @desc    Create Post
 // @access  Private
-router.post('/', protect, async (req, res) => {
-    const posts = await Post.create(req.body);
+router.post('/', 
+    protect, 
+    uploadImages,
+    resizeUploadedImages, 
+    async (req, res) => {
+    
+    // Insert user to body
+    if(!req.body.user) req.body.user = req.user; 
+
+    // Create post
+    const post = await Post.create(req.body);
 
     res.status(201).json({
-        posts
+        post
     });
 });
 

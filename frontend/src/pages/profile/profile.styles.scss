@@ -32,7 +32,7 @@
         padding: 0 3rem;
         margin-right: 2%;
         background: #292929;
-        height: 15rem;
+        height: 20rem;
         color: #FFFFFF;
 
         &-heading {
@@ -43,6 +43,10 @@
 
         &-item {
             margin-bottom: 6px;
+
+            &:last-child {
+                padding-bottom: 2rem;
+            }
         }
     }
 

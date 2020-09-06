@@ -43,7 +43,7 @@ body {
 }
 
 .fluid {
-    max-width: 100%;
+    min-width: 100%;
 }
 
 .btn {
@@ -88,4 +88,12 @@ h2 {
 
 .hidden {
     display: none;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 1.5rem;
+    width: 100%;
+    margin: 1rem 0;
 }
