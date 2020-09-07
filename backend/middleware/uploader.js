@@ -18,6 +18,7 @@ const upload = multer({ storage: storage, fileFilter: multerFilter });
 // Resize uploaded images
 exports.resizeUploadedImages = async(req, res, next) => {
     if(req.files !== undefined && req.files.image) {
+        // Set image file name
         req.body.image = `blogCover-${Date.now()}.jpeg`;
         try {
             await sharp(req.files.image[0].buffer)
@@ -31,7 +32,7 @@ exports.resizeUploadedImages = async(req, res, next) => {
 
         next();
     }
-    req.files === undefined && next();
+    if(req.files === undefined) return next();
     if(req.files.images !== undefined && req.files.images) {
         req.body.images = [];
         try {

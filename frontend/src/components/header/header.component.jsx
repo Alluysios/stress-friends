@@ -15,7 +15,7 @@ const Header = ({ auth, signOut }) => {
                         !auth.isAuthenticated ? <Link to='/auth' className="header-nav-item">Sign In</Link> 
                         :
                         <Fragment>
-                            <Link to='/account' className="header-nav-item">
+                            <Link to='/profile' className="header-nav-item">
                                 <img src={`/uploads/users/${auth.user.image}`} alt="Profile Image" className='header-nav-img' />
                                 <span>{auth.user.firstname}</span>
                             </Link>

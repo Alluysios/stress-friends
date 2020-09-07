@@ -2,6 +2,16 @@
     display: flex;
     flex-wrap: wrap;
 
+    &:first-child {
+        margin-top: 2rem;
+    }
+
+    &-box {
+        background-color: #3f4041;
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
     &-user {
         display: flex;
         align-items: center;
@@ -14,9 +24,8 @@
         }
 
         &-date {
-            font-weight: 700;
-            font-size: 1.2rem;
             color: #8a8a8a;
+            font-size: 1.1rem;
         }
     }
 
@@ -26,9 +35,11 @@
         padding-bottom: 8px;
 
         &-img {
-            width: 5rem;
-            height: 5rem;
+            margin-top: 2px;
+            width: 3.5rem;
+            height: 3.5rem;
             border-radius: 50%;
+            align-self: flex-start;
         }
     }
 
@@ -44,13 +55,13 @@
         min-width: 100%;
         border-radius: 12px;
         margin-left: 3.5rem;
-        margin-top: 1rem;
-        background-color: #3f4041;
-        padding: 1.5rem;
+
         &-user {
-            width: 4rem;
-            height: 4rem;
+            width: 3.5rem;
+            height: 3.5rem;
             border-radius: 50%;
+            align-self: flex-start;
+            margin-top: 2px;
         }
 
         &-name {

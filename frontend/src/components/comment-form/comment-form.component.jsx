@@ -1,24 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import './comment-form.styles.scss';
 
 import FormInput from '../form-input/form-input.component';
 import FormButton from '../form-button/form-button.component';
 
-const CommentForm = () => {
+import { createComment } from '../../actions/posts.action';
+
+const CommentForm = ({ createComment, pid }) => {
+    /* match.params.pid = postId */
+
+    const [formData, setFormData] = useState({
+        content: ''
+    });
+    const handleInput = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    
+    const handleSubmit = e => {
+        e.preventDefault();
+        createComment(formData, pid);
+    }
+
     return (
-        <form className='form-comment'>
+        <form className='form-comment' onSubmit={handleSubmit}>
             <FormInput 
                 type='text'
                 name='content'
                 id='content'
                 placeholder='Write a comment...'
-            />
-            <FormButton 
-                value='comment'
-                btnClass='primary'
+                onChange={handleInput}
             />
         </form>
     )
 }
 
-export default CommentForm
+export default connect(null, { createComment })(CommentForm)

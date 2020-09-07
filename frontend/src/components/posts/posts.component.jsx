@@ -6,12 +6,13 @@ import PostForm from '../post-form/post-form.component';
 import PostItem from '../post-item/post-item.component';
 
 // Actions
-import { getAllPosts } from '../../actions/posts.action';
+import { getAllPosts, getAllComments } from '../../actions/posts.action';
 
-const Posts = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
+const Posts = ({ getAllPosts, getAllComments, posts: { posts, comments }, auth: { user } }) => {
     useEffect(() => {
+        getAllComments();
         getAllPosts();
-    }, [getAllPosts])
+    }, [getAllPosts, getAllComments])
 
     return (
         <Fragment>
@@ -25,7 +26,7 @@ const Posts = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
                 :
                 posts.map(post =>
                     <Fragment key={post._id}>
-                        <PostItem post={post} />
+                        <PostItem post={post} comments={comments} />
                     </Fragment>
                 )
             }
@@ -36,7 +37,7 @@ const Posts = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
 
 const mapStateToProps = state => ({
     posts: state.post,
-    auth: state.auth
+    auth: state.auth,
 })
 
-export default connect(mapStateToProps, { getAllPosts })(Posts);
+export default connect(mapStateToProps, { getAllPosts, getAllComments })(Posts);

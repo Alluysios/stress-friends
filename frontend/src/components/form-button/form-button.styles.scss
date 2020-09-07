@@ -1,16 +1,20 @@
 .btn {
-    padding: 12px 18px;
+    padding: 8px 16px;
     border: none;
     font-size: 1.6rem;
     border-radius: 3px;
     margin-left: auto;
     font-weight: 700;
-    margin-top: 1rem;
+    margin-top: 5px;
     outline: none;
 
     &-sm {
-        padding: 6px 16px;
+        padding: 6px 12px;
         font-size: 1.3rem;
+    }
+
+    &-none {
+        display: none;
     }
 
     &-primary {

@@ -7,7 +7,7 @@ import PostItem from '../../components/post-item/post-item.component';
 // Actions
 import { getAllPosts } from '../../actions/posts.action';
 
-const Profile = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
+const Profile = ({ getAllPosts, posts: { posts, comments }, auth: { user } }) => {
     useEffect(() => {
         getAllPosts();
     }, [getAllPosts])
@@ -37,7 +37,7 @@ const Profile = ({ getAllPosts, posts: { posts }, auth: { user } }) => {
                         :
                         userPosts.map(post =>
                             <Fragment key={post._id}>
-                                <PostItem post={post} />
+                                <PostItem post={post} comments={comments} />
                             </Fragment>
                         )
                     }

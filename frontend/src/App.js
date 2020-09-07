@@ -24,7 +24,7 @@ const App = () => {
             <div className="container">
                 <Switch>
                     <ProtectedRoute exact path='/' component={Landing} />
-                    <ProtectedRoute exact path='/account' component={Profile} />
+                    <ProtectedRoute exact path='/profile' component={Profile} />
                     <ProtectedRoute exact path='/settings' component={Settings} />
                     <Route exact path='/auth' component={SignInSignUp} />
                     <ProtectedRoute exact path='/post/:pid' component={PostView} />

@@ -23,7 +23,6 @@ router.get('/', protect, async (req, res) => {
                 path: 'user',
                 select: 'firstname lastname image'
             }
-
         }
     }).populate({ path: 'user', select:'firstname lastname image' }).sort({ date: -1 });
     res.status(200).json({
@@ -77,14 +76,17 @@ router.delete('/:pid', protect, async (req, res) => {
 // @desc    Like a post
 // @access  Private
 router.patch('/:pid/like', protect, async (req, res) => {
-    const user = {
-        firstname: req.user.firstname,
-        lastname: req.user.lastname,
-        _id: req.user.id
-    };
     // Get the post
     const post = await Post.findById(req.params.pid);
     const { likes } = post;
+
+    const user = {
+        firstname: req.user.firstname,
+        lastname: req.user.lastname,
+        post: post._id,
+        _id: req.user.id
+    };
+    
     // Return an error message if post already like
     if(likes.includes(req.user.id)) return res.status(400).json({ errors: [{ msg: 'You already liked this post.' }]})
     // Push the user id and save

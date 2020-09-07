@@ -9,6 +9,24 @@ const router = express.Router({ mergeParams: true });
  *  baseURL: /posts/:pid
  ********/
 
+ // @route   GET /
+// @desc    Get all comments and replies
+// @access  Public
+router.get('/', async(req, res) => {
+    const comments = await Comment.find({}).populate({
+        path: 'user replies',
+        select: 'firstname lastname image',
+        populate: {
+            path: 'user',
+            select: 'firstname lastname image'
+        }
+    });
+
+    res.status(200).json({
+        comments
+    });
+});
+
 // @route   GET /
 // @desc    Get all comments on posts
 // @access  Public

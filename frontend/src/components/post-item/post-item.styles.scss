@@ -3,9 +3,9 @@
     background-color: #292b2c;
     color: #FFFFFF;
     border-radius: 12px;
-    padding: 5rem 0;
+    padding: 2rem 0;
     padding-bottom: 2rem;
-    margin: 3rem 0;
+    margin: 1.5rem 0;
     overflow: hidden;
 
     &-user,
@@ -15,7 +15,7 @@
     }
 
     &-content {
-        margin-bottom: 1.5rem;
+        margin-bottom: 5px;
     }
 
     &-user {
@@ -24,13 +24,13 @@
         padding-bottom: 8px;
 
         &-name {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             display: block;
             font-weight: 700;
         }
 
         &-date {
-            font-weight: 700;
+            line-height: 1.5;
             font-size: 1.2rem;
             color: #8a8a8a;
         }
@@ -40,10 +40,8 @@
         display: inline-block;
         padding: 3px 6px;
         border-radius: 3px;
-        background-color: #FF5722;
-        color: #FFFFFF;
-        margin-bottom: 1.5rem;
-        margin-top: 1rem;
+        color: #c8e6c9;
+        margin-left: 2.5rem;
     }
 
     &-owner {
@@ -55,6 +53,10 @@
         flex-wrap: wrap;
         text-align: center;
         font-weight: 700;
+        border-top: 1px solid #585858;
+        border-bottom: 1px solid #585858;
+        width: 95%;
+        margin: 0 auto;
 
         & > * {
             flex: 0 0 50%;
@@ -63,14 +65,19 @@
             color: #FFFFFF;
             padding: 6px 12px;
         }
+
+        & span {
+            margin: 3px 0;
+            border-radius: 6px;
+        }
+
         &-like {
-            background-color: #FF5722;
             &:hover {
-                background-color: #f79577;
+                background-color: #585858;
             }
         }
+        
         &-comment {
-            background-color: #17191a;
             &:hover {
                 background-color: #585858;
             }
@@ -78,8 +85,8 @@
     }
 
     &-user-img {
-        width: 6rem;
-        height: 6rem;
+        width: 4.5rem;
+        height: 4.5rem;
         border-radius: 50%;
         object-fit: cover;
         object-position: center;

@@ -13,11 +13,6 @@ const CommentReplyForm = ({ show }) => {
                 name='content'
                 placeholder='write a reply...'
             />
-
-            <FormButton 
-                value='Reply'
-                btnClass='primary'
-            />
         </form>
     )
 }

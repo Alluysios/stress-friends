@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import CommentItem from '../../components/comment-item/comment-item.component';
 import CommentForm from '../../components/comment-form/comment-form.component';
+
 import PostForm from '../../components/post-form/post-form.component';
 
 const UserPost = () => {
@@ -39,11 +40,17 @@ const UserPost = () => {
                     </div>
                 </div>
                 <div className="posts-comment-container">
-                    <span className='posts-like-count'>Likes: 23</span>
-                    <CommentItem />
-                    <CommentForm />
+                    {
+                        !comments ? <div> Loading... </div>
+                        :
+                        comments.filter(comment => comment.post === post._id).map(comment =>
+                            <Fragment key={comment._id}>
+                                <CommentItem comment={comment} user={comment.user} replies={comment.replies} />
+                            </Fragment>
+                        )
+                    }
+                    <CommentForm pid={post._id} />
                 </div>
-                
             </div>
         </div>
     )

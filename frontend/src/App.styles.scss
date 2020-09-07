@@ -40,6 +40,7 @@ body {
 
 .group {
     margin: 0 1rem;
+    line-height: 1.2;
 }
 
 .fluid {
@@ -63,11 +64,12 @@ body {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
-    font-weight: 700;
     
     &-small {
         display: inline-block;
         padding-right: 6px;
+        font-size: 1.2rem;
+        font-weight: 700;
         color: #FF5722;
         cursor: pointer;
 
