@@ -39,7 +39,7 @@ export default (state = INITIAL_STATE, action) => {
                 loading: false,
             }
         case SIGN_OUT: {
-            Cookies.remove('token');
+            Cookies.remove('name', { path: '' });
             return {
                 ...state,
                 user: null,

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import './comment-form.styles.scss';
 
 import FormInput from '../form-input/form-input.component';
-import FormButton from '../form-button/form-button.component';
 
 import { createComment } from '../../actions/posts.action';
 
@@ -18,6 +17,7 @@ const CommentForm = ({ createComment, pid }) => {
     }
     
     const handleSubmit = e => {
+        setFormData({ ...formData, content: '' });
         e.preventDefault();
         createComment(formData, pid);
     }
@@ -29,6 +29,7 @@ const CommentForm = ({ createComment, pid }) => {
                 name='content'
                 id='content'
                 placeholder='Write a comment...'
+                value={formData.content}
                 onChange={handleInput}
             />
         </form>

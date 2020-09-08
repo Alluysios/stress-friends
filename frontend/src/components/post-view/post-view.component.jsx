@@ -1,35 +1,59 @@
-import React from 'react';
-import image from './happy.jpg';
+import React, { useEffect, useState, Fragment } from 'react';
+import Moment from 'react-moment';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-
 import './post-view.styles.scss';
 
 import CommentItem from '../comment-item/comment-item.component';
+import CommentForm from '../comment-form/comment-form.component';
 
-const PostView = () => {
+import { getPost, getAllComments } from '../../actions/posts.action';
+
+const PostView = ({ getPost, getAllComments, post: { post, comments }, auth: { user }, match }) => {
+
+    useEffect(() => {
+        getPost(match.params.pid);
+        getAllComments();
+    }, [getPost])
     return (
+        !post ? <div>Loading...</div> 
+        :
         <div className='post'>
             <Link to='/' className='back-btn'>&larr; Back</Link>
             <div className="post-box">
-                <img src={image} alt="Sanoke image" className="post-image"/>
+                <img src={`/uploads/posts/${post.images[0]}`} alt={post.content} className="post-image"/>
             </div>
             <div className="post-box-2">
                 <div className="post-user">
-                    <img src="/me.jpg" alt="post user image" className='post-user-image' />
+                    <img src={`/uploads/users/${user.image}`} alt={user.firstname} className='post-user-image' />
                     <div>
-                        <div className="post-user-name">Alluysios Arriba</div>
-                        <div className="post-user-date">Posted: January 19, 1997</div>
+                        <div className="post-user-name">{user.firstname} {user.lastname}</div>
+                        <Moment className='posts-user-date' fromNow>{post.date}</Moment>
                     </div>
                     <p className='post-user-content'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora distinctio, aliquid in eveniet ex ipsa, excepturi necessitatibus nobis reprehenderit mollitia fugit facere exercitationem.
+                        {post.content}
                     </p>
                 </div>
                 <div className="post-comments">
-                    <CommentItem />
+                    {
+                        !comments ? <div> Loading... </div>
+                        :
+                        comments.filter(comment => comment.post === post._id).map(comment =>
+                            <Fragment key={comment._id}>
+                                <CommentItem comment={comment} user={comment.user} replies={comment.replies} />
+                            </Fragment>
+                        )
+                    }
+                    <CommentForm pid={post._id} />
                 </div>
             </div>
         </div>
     )
 }
 
-export default PostView;
+const mapStateToProps = state => ({
+    post: state.post,
+    auth: state.auth,
+})
+
+export default connect(mapStateToProps, { getPost, getAllComments })(PostView);

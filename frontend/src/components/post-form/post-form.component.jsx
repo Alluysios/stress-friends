@@ -5,8 +5,6 @@ import './post-form.styles.scss';
 import { createPost } from '../../actions/posts.action';
 
 import FormButton from '../form-button/form-button.component';
-import FormInput from '../form-input/form-input.component';
-
 
 const PostForm = ({ createPost }) => {
     const [formData, setFormData] = useState({

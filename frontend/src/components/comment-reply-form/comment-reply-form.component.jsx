@@ -1,20 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import './comment-reply-form.styles.scss';
 
-import FormButton from '../form-button/form-button.component';
 import FormInput from '../form-input/form-input.component';
 
-const CommentReplyForm = ({ show }) => {
+import { createReply } from '../../actions/posts.action';
+
+const CommentReplyForm = ({ show, createReply, cid, pid }) => {
+    const [formData, setFormData] = useState({
+        content: ''
+    });
+
+    const handleInput = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+    
+    const handleSubmit = e => {
+        e.preventDefault();
+        setFormData({ ...formData, content: '' });
+        createReply(formData, pid, cid);
+    }
+
     return (
-        <form className={`form--reply ${!show && 'hidden'}`}>
+        <form className={`form--reply ${!show && 'hidden'}`} onSubmit={handleSubmit}>
             <FormInput 
                 type='text'
                 id='content'
                 name='content'
                 placeholder='write a reply...'
+                value={formData.content}
+                onChange={handleInput}
             />
         </form>
     )
 }
 
-export default CommentReplyForm;
+export default connect(null, { createReply })(CommentReplyForm);

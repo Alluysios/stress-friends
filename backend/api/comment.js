@@ -82,21 +82,25 @@ router.delete('/:cid', protect, async(req, res) => {
 // @access  Private
 router.post('/:cid/reply', protect, async(req, res) => {
     // Grab content in req.body
-    const userReply = {
-        content: req.body.content,
-        user: req.user
-    }
+    
+    if(!req.body.user) req.body.user = req.user;
     // Get comment replies
-    const comment = await Comment.findById(req.params.cid);
+    const comment = await Comment.findById(req.params.cid).populate({
+        path: 'replies',
+        populate: ({
+            path: 'user',
+            select: 'firstname lastname image'
+        })
+    }).sort({ date: -1 });
+
     const { replies } = comment;
 
     // push content to replies array
-    replies.unshift(userReply);
-
+    replies.push(req.body);
     await comment.save();
-
+    
     res.status(201).json({
-        reply: userReply
+        reply: replies
     });
 });
 
@@ -131,11 +135,6 @@ router.delete('/:cid/reply/:rid', protect, async(req, res) => {
 // @access  Private
 router.patch('/:cid/like', protect, async(req, res) => {
     // Get user
-    const user = {
-        firstname: req.user.firstname,
-        lastname: req.user.lastname,
-        _id: req.user.id
-    };
     
     // Get comment
     const comment = await Comment.findById(req.params.cid);
@@ -145,12 +144,12 @@ router.patch('/:cid/like', protect, async(req, res) => {
     if(likes.includes(req.user._id)) return res.status(400).json({ errors: [{ msg: 'Comment already liked.' }]})
 
     // push user id to likes
-    likes.unshift(user);
+    likes.unshift(req.user._id);
 
     await comment.save();
 
     res.status(200).json({
-        user
+        comment: comment.likes
     });
 });
 
@@ -166,12 +165,12 @@ router.delete('/:cid/unlike', protect, async(req, res) => {
     // find the index and remove from the array
     const userIndex = likes.findIndex(id => req.user.id === id.toString());
     // Returns the id that's been removed
-    const removed = likes.splice(userIndex, 1);
+    likes.splice(userIndex, 1);
 
     await comment.save();
 
     res.status(200).json({
-        likes: removed
+        comment: comment.likes
     });
 });
 

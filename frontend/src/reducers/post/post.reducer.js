@@ -8,7 +8,6 @@ import {
     UNLIKE_POST,
     GET_ALL_COMMENTS,
     CREATE_COMMENT,
-    GET_COMMENTS_ON_POST,
     LIKE_COMMENT,
     UNLIKE_COMMENT,
     REPLY_ON_COMMENT,
@@ -58,10 +57,10 @@ export default (state = INITIAL_STATE, action) => {
                 loading: false
             }
         case LIKE_POST:
-            const posts = state.posts.map(post => post.id == payload.user.post ? { ...post, likes: [...post.likes, payload.user._id] } : post)
+        case UNLIKE_POST:
             return {
                 ...state,
-                posts: posts,
+                posts: state.posts.map(post => post.id == payload.pid ? { ...post, likes: payload.likes.post } : post),
                 loading: false
             }
         case GET_ALL_COMMENTS: 
@@ -69,7 +68,6 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 comments: payload.comments,
                 postComments: {
-                    comments: payload.comments,
                     replies: payload.reply
                 },
                 loading: false
@@ -80,10 +78,17 @@ export default (state = INITIAL_STATE, action) => {
                 comments: [...state.comments, payload.comments],
                 loading: false
             }
+        case LIKE_COMMENT:
+        case UNLIKE_COMMENT:
+            return {
+                ...state,
+                comments: state.comments.map(comment => comment._id == payload.cid ? { ...comment, likes: payload.likes.comment } : comment),
+                loading: false
+            }
         case REPLY_ON_COMMENT:
             return {
                 ...state,
-                replies: [...state.replies, payload.replies],
+                comments: state.comments.map(comment => comment._id == payload.cid ? { ...comment, replies: payload.comment.reply } : comment),
                 loading: false
             }
         case POST_ERROR:

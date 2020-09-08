@@ -9,7 +9,7 @@ import CommentForm from '../comment-form/comment-form.component';
 
 import { likePost, unlikePost } from '../../actions/posts.action';
 
-const PostItem = ({ post, comments, likePost, unlikePost }) => {
+const PostItem = ({ post, comments, likePost, unlikePost, auth }) => {
     const { user } = post;
     
     return (
@@ -21,8 +21,12 @@ const PostItem = ({ post, comments, likePost, unlikePost }) => {
                     <Moment className='posts-user-date' fromNow>{post.date}</Moment>
                 </div>
                 <div className='posts-owner'>
-                    <span className='btn btn-edit'>Edit</span>
-                    <span className='btn btn-delete'>Delete</span>
+                    {
+                        post.user._id === auth.user._id && <Fragment>
+                            <span className='btn btn-edit'>Edit</span>
+                            <span className='btn btn-delete'>Delete</span>
+                        </Fragment>
+                    } 
                 </div>
             </div>
             
@@ -32,7 +36,7 @@ const PostItem = ({ post, comments, likePost, unlikePost }) => {
                 </div>
 
                 <div className='posts-img-box'>
-                    <Link to={`/post`} className='posts-image-link'>
+                    <Link to={`/post/${post._id}`} className='posts-image-link'>
                         {
                             post.images.length > 0 ? post.images.map(image => 
                                 <img src={`/uploads/posts/${image}`} alt={`${post.content}`} className='posts-img' key={post._id} />
@@ -44,8 +48,12 @@ const PostItem = ({ post, comments, likePost, unlikePost }) => {
                 </div>
                 <span className='posts-like-count'>Likes: {post.likes.length}</span>
                 <div className='posts-options'>
-                    <span className='posts-options-like' onClick={() => likePost(post._id)}>Like</span>
-                    {/* <span className='posts-options-like' onClick={() => unlikePost(post._id)}>Unlike</span> */}
+                    {
+                        post.likes.includes(user._id) ? 
+                        <span className='posts-options-like' onClick={() => unlikePost(post._id)}>Unlike</span>
+                        :
+                        <span className='posts-options-like' onClick={() => likePost(post._id)}>Like</span>
+                    }
                     <span className='posts-options-comment'>Comment</span>
                 </div>
             </div>
@@ -65,4 +73,8 @@ const PostItem = ({ post, comments, likePost, unlikePost }) => {
     )
 }
 
-export default connect(null, { likePost, unlikePost })(PostItem);
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, { likePost, unlikePost })(PostItem);

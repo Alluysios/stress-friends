@@ -16,7 +16,7 @@ const Header = ({ auth, signOut }) => {
                         :
                         <Fragment>
                             <Link to='/profile' className="header-nav-item">
-                                <img src={`/uploads/users/${auth.user.image}`} alt="Profile Image" className='header-nav-img' />
+                                <img src={`/uploads/users/${auth.user.image}`} alt={auth.user.firstname} className='header-nav-img' />
                                 <span>{auth.user.firstname}</span>
                             </Link>
                             <Link to='/settings' className="header-nav-item">Settings</Link>

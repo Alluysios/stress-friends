@@ -1,39 +1,55 @@
 import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import "./comment-item.styles.scss";
 
 import CommentReplyForm from '../comment-reply-form/comment-reply-form.component';
 
-const CommentItem = ({ comment, user, replies }) => {
-    const [show, setShow] = useState(false);
+import { likeComment, unlikeComment } from '../../actions/posts.action';
 
+const CommentItem = ({ comment, user, auth, likeComment, unlikeComment }) => {
+    const [show, setShow] = useState(false);
+    
     return (
         <Fragment>
             <div className="comment">
                 <div className="comment-user">
-                    <img src={`/uploads/users/${user.image}`} alt="post comment temp" className="comment-user-img"/>
+                    <img src={`/uploads/users/${user.image}`} alt={user.firstname} className="comment-user-img"/>
                     <div className="group">
                         <div className="comment-box">
                             <span className="comment-user-name">{`${user.firstname} ${user.lastname}`}</span>
                             <span className='comment-content'>
                                 {comment.content}
                             </span>
+                            {
+                                comment.likes.length > 0 && <span className='comment-like-count'>{comment.likes.length}</span>
+                            }
                         </div>
                         <div className="comment-options">
-                            <span className="options-small">like</span>
+                            {
+                                comment.likes.includes(auth.user._id) ?
+                                    <span className="options-small" onClick={() => unlikeComment(comment._id)}>unlike</span>
+                                    :
+                                    <span className="options-small" onClick={() => likeComment(comment._id)}>like</span>
+                            }
                             <span className="options-small" onClick={() => setShow(!show)}>reply</span>
-                            <span className="options-small">edit</span>
-                            <span className="options-small">delete</span>
+                            {
+                                comment.user._id === auth.user._id && 
+                                <Fragment>
+                                    <span className="options-small">edit</span>
+                                    <span className="options-small">delete</span>
+                                </Fragment>
+                            }
+                            
                             <Moment className='posts-user-date' fromNow>{comment.date}</Moment>
                         </div>
                     </div>
                 </div>
                
-                <CommentReplyForm show={show} />
+                <CommentReplyForm show={show} pid={comment.post} cid={comment._id} />
                 {
-                    !replies ? <div> Loading... </div>
-                    :
-                    replies.map(reply =>
+                    !comment.replies ? <div> Loading... </div> :
+                    comment.replies.map(reply =>
                         <Fragment key={reply._id}>
                             <div className="comment-reply">
                                 <div className="comment-user">
@@ -44,17 +60,28 @@ const CommentItem = ({ comment, user, replies }) => {
                                             <span className='comment-content'>
                                                 {reply.content}
                                             </span>
+                                            {
+                                                reply.likes.length > 0 && <span className='comment-like-count'>{comment.likes.length}</span>
+                                            }
                                         </div>
                                         <div className="comment-options">
-                                            <span className="options-small">like</span>
-                                            <span className="options-small">edit</span>
-                                            <span className="options-small">delete</span>
+                                            {
+                                                reply.likes.includes(auth.user._id) ?
+                                                    <span className="options-small" onClick={() => unlikeComment(comment._id)}>unlike</span>
+                                                    :
+                                                    <span className="options-small" onClick={() => likeComment(comment._id)}>like</span>
+                                            }
+                                            {
+                                                reply.user._id === auth.user._id && 
+                                                <Fragment>
+                                                    <span className="options-small">edit</span>
+                                                    <span className="options-small">delete</span>
+                                                </Fragment>
+                                            }
                                             <Moment className='posts-user-date' fromNow>{reply.date}</Moment>
                                         </div>
                                     </div>
                                 </div>
-                                
-                                
                             </div>
                         </Fragment>
                     )
@@ -64,4 +91,8 @@ const CommentItem = ({ comment, user, replies }) => {
     )
 }
 
-export default CommentItem;
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, { likeComment, unlikeComment })(CommentItem);

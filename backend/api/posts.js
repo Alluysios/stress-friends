@@ -30,6 +30,27 @@ router.get('/', protect, async (req, res) => {
     });
 });
 
+// @route   GET /
+// @desc    Get all Posts
+// @access  Private
+router.get('/:pid', protect, async (req, res) => {
+    const post = await Post.findById(req.params.pid).populate({
+        path: 'comments',
+        populate: {
+            path: 'user replies',
+            select: 'firstname lastname image',
+            populate: {
+                path: 'user',
+                select: 'firstname lastname image'
+            }
+        }
+    }).populate({ path: 'user', select:'firstname lastname image' }).sort({ date: -1 });
+    res.status(200).json({
+        post
+    });
+});
+
+
 // @route   POST /
 // @desc    Create Post
 // @access  Private
@@ -94,7 +115,7 @@ router.patch('/:pid/like', protect, async (req, res) => {
     await post.save();
 
     res.status(200).json({
-        user
+        post: post.likes
     });
 });
 
@@ -109,11 +130,10 @@ router.patch('/:pid/unlike', protect, async (req, res) => {
     // Find the user index
     const userIndex = likes.findIndex(id => req.user.id === id.toString());
     // Remove user from likes and return removed post
-    const removed = likes.splice(userIndex, 1);
-
+    likes.splice(userIndex, 1);
     await post.save();
     res.status(200).json({
-        post: removed
+        post: post.likes
     });
 });
 

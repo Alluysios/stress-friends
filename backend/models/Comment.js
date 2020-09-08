@@ -9,6 +9,12 @@ const commentSchema = new mongoose.Schema({
     replies: [
         {
             content: String,
+            likes: [
+                {
+                    type: mongoose.Schema.ObjectId,
+                    ref: 'User'
+                }
+            ],
             date: {
                 type: Date,
                 default: Date.now

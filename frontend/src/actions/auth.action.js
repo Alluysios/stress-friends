@@ -29,6 +29,10 @@ export const userLoad = () => async dispatch => {
 }
 
 export const signIn = (formData, history) => async dispatch => {
+    const token = Cookies.get('token');
+    if(token) {
+        setAuthToken(token);
+    }
     try {
         const res = await axios.post('/api/v1/auth/signIn', formData);
         dispatch({ type: SIGN_IN, payload: res.data });
@@ -43,6 +47,7 @@ export const signUp = formData => async dispatch => {
     try {
         const res = await axios.post('/api/v1/auth/signUp', formData);
         dispatch({ type: SIGN_UP, payload: res.data });
+        userLoad();
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: AUTH_ERROR, payload: errors });

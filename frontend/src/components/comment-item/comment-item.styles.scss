@@ -2,11 +2,23 @@
     display: flex;
     flex-wrap: wrap;
 
+    &-like-count {
+        position: absolute;
+        bottom: -5px;
+        right: -13px;
+        padding: 5px;
+        color: #BDBDBD;
+        background: #757575;
+        border-radius: 50%;
+        font-size: 1rem;
+    }
+
     &:first-child {
         margin-top: 2rem;
     }
 
     &-box {
+        position: relative;
         background-color: #3f4041;
         padding: 1rem;
         border-radius: 12px;
