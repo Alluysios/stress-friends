@@ -6,7 +6,7 @@
   "scripts": {
     "client": "npm start --prefix frontend",
     "server": "npm run dev --prefix backend",
-    "start": "npm run start --prefix backend",
+    "start": "npm start --prefix backend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --preifx frontend && npm run build --prefix frontend"
   },
