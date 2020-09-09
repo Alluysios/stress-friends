@@ -10,8 +10,7 @@ export const AUTH_ERROR = 'AUTH_ERROR';
 // POST TYPES
 export const GET_ALL_POSTS = 'GET_ALL_POSTS';
 export const GET_POST = 'GET_POST';
-export const LIKE_POST = 'LIKE_POST';
-export const UNLIKE_POST = 'UNLIKE_POST';
+export const UPDATE_POST_LIKE = 'UPDATE_POST_LIKE';
 export const CREATE_POST = 'CREATE_POST';
 export const EDIT_POST = 'EDIT_POST';
 export const DELETE_POST = 'DELETE_POST';
@@ -20,6 +19,6 @@ export const POST_ERROR = 'POST_ERROR';
 // COMMENT TYPES
 export const GET_ALL_COMMENTS = 'GET_ALL_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
-export const LIKE_COMMENT = 'LIKE_COMMENT';
-export const UNLIKE_COMMENT = 'UNLIKE_COMMENT';
+export const UPDATE_COMMENT_LIKES = 'UPDATE_COMMENT_LIKES';
 export const REPLY_ON_COMMENT = 'REPLY_ON_COMMENT';
+export const UPDATE_REPLY_LIKES = 'UPDATE_REPLY_LIKES';

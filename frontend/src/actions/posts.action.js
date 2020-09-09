@@ -6,13 +6,12 @@ import {
     CREATE_POST,
     EDIT_POST,
     DELETE_POST,
-    LIKE_POST,
-    UNLIKE_POST,
+    UPDATE_POST_LIKE,
     GET_ALL_COMMENTS,
     CREATE_COMMENT,
-    LIKE_COMMENT,
-    UNLIKE_COMMENT,
+    UPDATE_COMMENT_LIKES,
     REPLY_ON_COMMENT,
+    UPDATE_REPLY_LIKES,
     POST_ERROR
 } from './types';
 
@@ -64,23 +63,11 @@ export const deletePost = (pid) => async dispatch => {
     }
 }
 
-
-// LIKE POST
-export const likePost = (pid) => async dispatch => {
+// UPDATE POST LIKES
+export const updatePostLike = (pid) => async dispatch => {
     try {
         const res = await axios.patch(`/api/v1/posts/${pid}/like`);
-        dispatch({ type: LIKE_POST, payload: {  pid, likes: res.data } });
-    } catch (err) {
-        const errors = err.response.data.errors;
-        dispatch({ type: POST_ERROR, payload: errors });
-    }
-}
-
-// UNLIKE POST
-export const unlikePost = (pid) => async dispatch => {
-    try {
-        const res = await axios.patch(`/api/v1/posts/${pid}/unlike`);
-        dispatch({ type: UNLIKE_POST, payload: {  pid, likes: res.data } });
+        dispatch({ type: UPDATE_POST_LIKE, payload: {  pid, likes: res.data } });
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: POST_ERROR, payload: errors });
@@ -109,22 +96,11 @@ export const createComment = (formData, pid) => async dispatch => {
     }
 }
 
-// LIKE COMMENT
-export const likeComment = (cid) => async dispatch => {
+// UPDATE COMMENT LIKES
+export const updateCommentLike = (cid) => async dispatch => {
     try {
         const res = await axios.patch(`/api/v1/comments/${cid}/like`);
-        dispatch({ type: LIKE_COMMENT, payload: { cid, likes: res.data } });
-    } catch (err) {
-        const errors = err.response.data.errors;
-        dispatch({ type: POST_ERROR, payload: errors });
-    }
-}
-
-// UNLIKE COMMENT
-export const unlikeComment = (cid) => async dispatch => {
-    try {
-        const res = await axios.delete(`/api/v1/comments/${cid}/unlike`);
-        dispatch({ type: UNLIKE_COMMENT, payload:  { cid, likes: res.data } });
+        dispatch({ type: UPDATE_COMMENT_LIKES, payload: { cid, likes: res.data } });
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: POST_ERROR, payload: errors });
@@ -138,5 +114,16 @@ export const createReply = (formData, pid, cid) => async dispatch => {
         dispatch({ type: REPLY_ON_COMMENT, payload: { cid, comment: res.data } });
     } catch (err) {
         
+    }
+}
+
+// UPDATE COMMENT LIKES
+export const updateReplyLike = (cid, rid) => async dispatch => {
+    try {
+        const res = await axios.patch(`/api/v1/comments/${cid}/reply/${rid}/like`);
+        dispatch({ type: UPDATE_REPLY_LIKES, payload: { cid, rid, likes: res.data } });
+    } catch (err) {
+        const errors = err.response.data.errors;
+        dispatch({ type: POST_ERROR, payload: errors });
     }
 }

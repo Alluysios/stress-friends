@@ -5,11 +5,10 @@ import "./comment-item.styles.scss";
 
 import CommentReplyForm from '../comment-reply-form/comment-reply-form.component';
 
-import { likeComment, unlikeComment } from '../../actions/posts.action';
+import { updateCommentLike, updateReplyLike } from '../../actions/posts.action';
 
-const CommentItem = ({ comment, user, auth, likeComment, unlikeComment }) => {
+const CommentItem = ({ comment, user, auth, updateCommentLike, updateReplyLike }) => {
     const [show, setShow] = useState(false);
-    
     return (
         <Fragment>
             <div className="comment">
@@ -28,9 +27,9 @@ const CommentItem = ({ comment, user, auth, likeComment, unlikeComment }) => {
                         <div className="comment-options">
                             {
                                 comment.likes.includes(auth.user._id) ?
-                                    <span className="options-small" onClick={() => unlikeComment(comment._id)}>unlike</span>
+                                    <span className="options-small" onClick={() => updateCommentLike(comment._id)}>unlike</span>
                                     :
-                                    <span className="options-small" onClick={() => likeComment(comment._id)}>like</span>
+                                    <span className="options-small" onClick={() => updateCommentLike(comment._id)}>like</span>
                             }
                             <span className="options-small" onClick={() => setShow(!show)}>reply</span>
                             {
@@ -47,7 +46,7 @@ const CommentItem = ({ comment, user, auth, likeComment, unlikeComment }) => {
                 </div>
                
                 <CommentReplyForm show={show} pid={comment.post} cid={comment._id} />
-                {
+                {   
                     !comment.replies ? <div> Loading... </div> :
                     comment.replies.map(reply =>
                         <Fragment key={reply._id}>
@@ -61,15 +60,15 @@ const CommentItem = ({ comment, user, auth, likeComment, unlikeComment }) => {
                                                 {reply.content}
                                             </span>
                                             {
-                                                reply.likes.length > 0 && <span className='comment-like-count'>{comment.likes.length}</span>
+                                                reply.likes.length > 0 && <span className='comment-like-count'>{reply.likes.length}</span>
                                             }
                                         </div>
                                         <div className="comment-options">
                                             {
                                                 reply.likes.includes(auth.user._id) ?
-                                                    <span className="options-small" onClick={() => unlikeComment(comment._id)}>unlike</span>
+                                                    <span className="options-small" onClick={() => updateReplyLike(comment._id, reply._id)}>unlike</span>
                                                     :
-                                                    <span className="options-small" onClick={() => likeComment(comment._id)}>like</span>
+                                                    <span className="options-small" onClick={() => updateReplyLike(comment._id, reply._id)}>like</span>
                                             }
                                             {
                                                 reply.user._id === auth.user._id && 
@@ -95,4 +94,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { likeComment, unlikeComment })(CommentItem);
+export default connect(mapStateToProps, { updateCommentLike, updateReplyLike })(CommentItem);

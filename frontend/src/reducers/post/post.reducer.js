@@ -4,13 +4,12 @@ import {
     CREATE_POST,
     EDIT_POST,
     DELETE_POST,
-    LIKE_POST,
-    UNLIKE_POST,
+    UPDATE_POST_LIKE,
     GET_ALL_COMMENTS,
     CREATE_COMMENT,
-    LIKE_COMMENT,
-    UNLIKE_COMMENT,
+    UPDATE_COMMENT_LIKES,
     REPLY_ON_COMMENT,
+    UPDATE_REPLY_LIKES,
     POST_ERROR
 } from '../../actions/types';
 
@@ -56,8 +55,7 @@ export default (state = INITIAL_STATE, action) => {
                 posts: state.posts.filter(post => post._id !== payload.pid),
                 loading: false
             }
-        case LIKE_POST:
-        case UNLIKE_POST:
+        case UPDATE_POST_LIKE:
             return {
                 ...state,
                 posts: state.posts.map(post => post.id == payload.pid ? { ...post, likes: payload.likes.post } : post),
@@ -78,17 +76,29 @@ export default (state = INITIAL_STATE, action) => {
                 comments: [...state.comments, payload.comments],
                 loading: false
             }
-        case LIKE_COMMENT:
-        case UNLIKE_COMMENT:
+        case UPDATE_COMMENT_LIKES:
             return {
                 ...state,
-                comments: state.comments.map(comment => comment._id == payload.cid ? { ...comment, likes: payload.likes.comment } : comment),
+                comments: state.comments.map(comment => comment._id === payload.cid ? { ...comment, likes: payload.likes.comment } : comment),
                 loading: false
             }
         case REPLY_ON_COMMENT:
             return {
                 ...state,
-                comments: state.comments.map(comment => comment._id == payload.cid ? { ...comment, replies: payload.comment.reply } : comment),
+                comments: state.comments.map(comment => comment._id === payload.cid ? { ...comment, replies: payload.comment.reply } : comment),
+                loading: false
+            }
+        case UPDATE_REPLY_LIKES:
+            const updateReply = (comment) => {
+                if(comment._id === payload.cid) {
+                    return comment.replies.map(reply => reply._id === payload.rid ? { ...reply, likes: payload.likes.reply } : reply);
+                } else {
+                    return comment;
+                }
+            }
+            return {
+                ...state,
+                comments: state.comments.map(comment => comment._id === payload.cid ? {...comment, replies: updateReply(comment) } : comment),
                 loading: false
             }
         case POST_ERROR:

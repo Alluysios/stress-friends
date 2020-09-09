@@ -77,6 +77,30 @@ router.delete('/:cid', protect, async(req, res) => {
     res.status(204).json(commentId);
 });
 
+
+// @route   PATCH /:cid/like
+// @desc    Like/Unlike comment on post
+// @access  Private
+router.patch('/:cid/like', protect, async(req, res) => {
+    // Get comment
+    const comment = await Comment.findById(req.params.cid);
+    // check if user already like the comment
+    const { likes } = comment;
+
+    // Get the user index
+    const userIndex = likes.findIndex(id => req.user.id === id.toString());
+
+    // Check if user like else remove them from the array.
+    likes.includes(req.user._id) ? likes.splice(userIndex, 1) : likes.unshift(req.user._id);
+
+    await comment.save();
+    res.status(200).json({
+        comment: comment.likes
+    });
+});
+
+module.exports = router;
+
 // @route   PATCH /:cid/reply
 // @desc    Reply comment on post
 // @access  Private
@@ -101,6 +125,29 @@ router.post('/:cid/reply', protect, async(req, res) => {
     
     res.status(201).json({
         reply: replies
+    });
+});
+
+// @route   PATCH /:cid/reply/:rid
+// @desc    Like/Unlike reply on comment
+// @access  Private
+router.patch('/:cid/reply/:rid/like', protect, async(req, res) => {
+    // Get comment
+    const comment = await Comment.findById(req.params.cid);
+    if(!comment) res.status(400).json({ errors: [ {msg: 'No comment found with that id' }] })
+    // check if user already like the comment
+    const { replies } = comment;
+    const reply = replies.find(rep => rep.id === req.params.rid);
+    const { likes } = reply;
+    // Get the user index
+    const userIndex = likes.findIndex(id => req.user.id === id.toString());
+    // Check if user like else remove them from the array.
+    likes.includes(req.user._id) ? likes.splice(userIndex, 1) : likes.unshift(req.user._id);
+
+    await comment.save();
+
+    res.status(200).json({
+        reply: reply.likes
     });
 });
 
@@ -129,49 +176,3 @@ router.delete('/:cid/reply/:rid', protect, async(req, res) => {
 
     res.json(removed);
 });
-
-// @route   PATCH /:cid/like
-// @desc    Like comment on post
-// @access  Private
-router.patch('/:cid/like', protect, async(req, res) => {
-    // Get user
-    
-    // Get comment
-    const comment = await Comment.findById(req.params.cid);
-    
-    // check if user already like the comment
-    const { likes } = comment;
-    if(likes.includes(req.user._id)) return res.status(400).json({ errors: [{ msg: 'Comment already liked.' }]})
-
-    // push user id to likes
-    likes.unshift(req.user._id);
-
-    await comment.save();
-
-    res.status(200).json({
-        comment: comment.likes
-    });
-});
-
-// @route   PATCH /:cid/unlike
-// @desc    Unlike comment on post
-// @access  Private
-router.delete('/:cid/unlike', protect, async(req, res) => {
-
-    // Get comment likes
-    const comment = await Comment.findById(req.params.cid);
-    const { likes } = comment;
-    
-    // find the index and remove from the array
-    const userIndex = likes.findIndex(id => req.user.id === id.toString());
-    // Returns the id that's been removed
-    likes.splice(userIndex, 1);
-
-    await comment.save();
-
-    res.status(200).json({
-        comment: comment.likes
-    });
-});
-
-module.exports = router;

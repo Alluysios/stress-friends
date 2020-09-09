@@ -7,9 +7,9 @@ import './post-item.styles.scss';
 import CommentItem from '../comment-item/comment-item.component';
 import CommentForm from '../comment-form/comment-form.component';
 
-import { likePost, unlikePost } from '../../actions/posts.action';
+import { updatePostLike } from '../../actions/posts.action';
 
-const PostItem = ({ post, comments, likePost, unlikePost, auth }) => {
+const PostItem = ({ post, comments, updatePostLike, auth }) => {
     const { user } = post;
     
     return (
@@ -50,9 +50,9 @@ const PostItem = ({ post, comments, likePost, unlikePost, auth }) => {
                 <div className='posts-options'>
                     {
                         post.likes.includes(user._id) ? 
-                        <span className='posts-options-like' onClick={() => unlikePost(post._id)}>Unlike</span>
+                        <span className='posts-options-like' onClick={() => updatePostLike(post._id)}>Unlike</span>
                         :
-                        <span className='posts-options-like' onClick={() => likePost(post._id)}>Like</span>
+                        <span className='posts-options-like' onClick={() => updatePostLike(post._id)}>Like</span>
                     }
                     <span className='posts-options-comment'>Comment</span>
                 </div>
@@ -77,4 +77,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { likePost, unlikePost })(PostItem);
+export default connect(mapStateToProps, { updatePostLike })(PostItem);

@@ -107,34 +107,18 @@ router.patch('/:pid/like', protect, async (req, res) => {
         post: post._id,
         _id: req.user.id
     };
-    
-    // Return an error message if post already like
-    if(likes.includes(req.user.id)) return res.status(400).json({ errors: [{ msg: 'You already liked this post.' }]})
-    // Push the user id and save
-    likes.unshift(user);
-    await post.save();
-
-    res.status(200).json({
-        post: post.likes
-    });
-});
-
-// @route   PATCH /:pid
-// @desc    Unlike a post
-// @access  Private
-router.patch('/:pid/unlike', protect, async (req, res) => {
-    // Get the post
-    const post = await Post.findById(req.params.pid);
-    const { likes } = post;
 
     // Find the user index
-    const userIndex = likes.findIndex(id => req.user.id === id.toString());
-    // Remove user from likes and return removed post
-    likes.splice(userIndex, 1);
+    const userIndex = likes.findIndex(id => user._id === id.toString());
+
+    // Check if user like else remove them from the array.
+    likes.includes(req.user.id) ? likes.splice(userIndex, 1) : likes.unshift(user);
+    
     await post.save();
     res.status(200).json({
         post: post.likes
     });
 });
+
 
 module.exports = router;
