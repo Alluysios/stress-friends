@@ -4,10 +4,10 @@
   "description": "Social Media to relieve stress for stress people <3",
   "main": "app.js",
   "scripts": {
-    "client": "npm start --prefix frontend",
+    "frontend": "npm start --prefix frontend",
     "server": "nodemon server.js",
     "start": "node server.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
   "dependencies": {
