@@ -8,7 +8,7 @@
     "server": "npm run dev --prefix backend",
     "start": "node server.js --prefix backend",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCT=false npm install --preifx frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --preifx frontend && npm run build --prefix frontend"
   },
   "repository": {
     "type": "git",
