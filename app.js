@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const app = express();
 
-const morgan = require('morgan');
 const compression = require('compression');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -26,10 +25,6 @@ const commentRouter = require('./api/comment');
 app.use(compression());
 // Security HTTP Headers
 app.use(helmet());
-
-// Development logging
-if(process.env.NODE_ENV === 'development') app.use(morgan('dev'));
-
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
