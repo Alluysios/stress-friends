@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Social Media to relieve stress for stress people <3",
   "main": "app.js",
+  "scripts": {
+    "server": "nodemon server.js",
+    "start": "node server.js"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
@@ -26,10 +30,6 @@
   },
   "engines": {
     "node": "12.16.3"
-  },
-  "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js"
   },
   "author": "Alluysios Arriba",
   "license": "ISC"
