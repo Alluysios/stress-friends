@@ -1,29 +1,40 @@
 {
   "name": "stress-friends",
   "version": "1.0.0",
-  "description": "Social media for stress people to relieve their stress",
-  "main": "index.js",
+  "description": "Social Media to relieve stress for stress people <3",
+  "main": "app.js",
   "scripts": {
     "client": "npm start --prefix frontend",
-    "server": "npm run dev --prefix backend",
-    "start": "npm start --prefix backend",
+    "server": "nodemon server.js",
+    "start": "node server.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --preifx frontend && npm run build --prefix frontend"
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Alluysios/stress-friends.git"
-  },
-  "author": "Alluysios Arriba",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Alluysios/stress-friends/issues"
-  },
-  "homepage": "https://github.com/Alluysios/stress-friends#readme",
   "dependencies": {
-    "concurrently": "^5.3.0"
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-mongo-sanitize": "^2.0.0",
+    "express-validator": "^6.6.1",
+    "helmet": "^4.1.0",
+    "http": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.4",
+    "multer": "^1.4.2",
+    "sharp": "^0.26.0",
+    "xss-clean": "^0.1.1"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.4"
   },
   "engines": {
     "node": "12.16.3"
-  }
+  },
+  "author": "Alluysios Arriba",
+  "license": "ISC"
 }
