@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import './comment-reply-form.styles.scss';
+import './reply-form.styles.scss';
 
 import FormInput from '../form-input/form-input.component';
 
 import { createReply } from '../../actions/posts.action';
 
-const CommentReplyForm = ({ show, createReply, cid, pid }) => {
+const ReplyForm = ({ show, createReply, cid, pid }) => {
     const [formData, setFormData] = useState({
         content: ''
     });
@@ -35,4 +35,4 @@ const CommentReplyForm = ({ show, createReply, cid, pid }) => {
     )
 }
 
-export default connect(null, { createReply })(CommentReplyForm);
+export default connect(null, { createReply })(ReplyForm);

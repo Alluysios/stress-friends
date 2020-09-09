@@ -71,6 +71,11 @@ router.patch('/:cid', protect, async(req, res) => {
 // @desc    Delete comment on post
 // @access  Private
 router.delete('/:cid', protect, async(req, res) => {
+    const comment = await Comment.findById(req.params.cid);
+
+    if(!comment) return res.status(400).json({ errors: [{ msg: 'No comment found with that ID. '}]});
+
+    if(comment.user.toString() !== req.user._id.toString()) return res.status(401).json({ errors: [{ msg: 'You don\'t have the permission to perform the action. '}]})
     const commentId = req.params.cid;
     await Comment.findByIdAndDelete(commentId);
 

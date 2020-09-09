@@ -29,13 +29,10 @@ export const userLoad = () => async dispatch => {
 }
 
 export const signIn = (formData, history) => async dispatch => {
-    const token = Cookies.get('token');
-    if(token) {
-        setAuthToken(token);
-    }
     try {
         const res = await axios.post('/api/v1/auth/signIn', formData);
         dispatch({ type: SIGN_IN, payload: res.data });
+        dispatch(userLoad());
         if(res.status === 200) history.push('/');
     } catch (err) {
         const errors = err.response.data.errors;
@@ -61,7 +58,7 @@ export const signOut = () => dispatch => {
 export const updateProfile = formData => async dispatch => {
     console.log(formData);
     try {
-        const res = await axios.patch('/api/v1/users', formData);
+        const res = await axios.patch('/api/v1/users/updateProfile', formData);
         dispatch({ type: UPDATE_PROFILE, payload: res.data })
     } catch (err) {
         const errors = err.response.data.errors;

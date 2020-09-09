@@ -24,33 +24,26 @@ router.get('/', protect, async(req, res) => {
 // @route   PATCH /
 // @desc    Update user profile
 // @access  Private
-router.patch('/', 
+router.patch('/updateProfile', 
     protect,
     uploadImages,
     resizeUploadedImages,
     async(req, res) => {
-    
-    const { firstname, lastname, email, bio, status, hobby } = req.body;
+        console.log(req.body);
+    if(!req.body.image) req.body.image = 'default.jpg';
+    const { hobby } = req.body;
 
     // split hobby into an array
     let hobbies = [];
-    hobby.split(',').forEach(hob => hobbies.push(hob));
+    if(req.body.hobby) hobby.split(',').forEach(hob => hobbies.push(hob));
     // check if user updating for password
-    if(req.body.password) return res.status(400).json({ errors: [{ msg: 'Please go to update password. This is only for updating profile. '}]});
-    if(!req.body.image) req.body.image = 'default.jpg';
-    
-    const user = await User.findByIdAndUpdate(req.user.id, {
-        firstname,
-        lastname,
-        email,
-        bio,
-        status,
-        hobby: hobbies,
-        image: req.body.image
-    }, { new: true });
+    if(req.body.password) res.status(401).json({ errors: [{ msg: 'Please go to update password. This is only for updating profile. '}]});
+
+    const user = await User.findOneAndUpdate({ email: req.user. email}, req.body, { returnOriginal: false });
 
     if(!user) res.status(401).json({ errors: [{ msg: 'No user with that id.' }]});
-    user.password = undefined;
+
+
     res.status(200).json({
         user
     });

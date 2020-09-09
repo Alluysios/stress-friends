@@ -7,8 +7,10 @@ import {
     UPDATE_POST_LIKE,
     GET_ALL_COMMENTS,
     CREATE_COMMENT,
+    DELETE_COMMENT,
     UPDATE_COMMENT_LIKES,
     REPLY_ON_COMMENT,
+    DELETE_REPLY,
     UPDATE_REPLY_LIKES,
     POST_ERROR
 } from '../../actions/types';
@@ -52,13 +54,13 @@ export default (state = INITIAL_STATE, action) => {
         case DELETE_POST:
             return {
                 ...state,
-                posts: state.posts.filter(post => post._id !== payload.pid),
+                posts: state.posts.filter(post => post._id !== payload),
                 loading: false
             }
         case UPDATE_POST_LIKE:
             return {
                 ...state,
-                posts: state.posts.map(post => post.id == payload.pid ? { ...post, likes: payload.likes.post } : post),
+                posts: state.posts.map(post => post.id === payload.pid ? { ...post, likes: payload.likes.post } : post),
                 loading: false
             }
         case GET_ALL_COMMENTS: 
@@ -76,6 +78,12 @@ export default (state = INITIAL_STATE, action) => {
                 comments: [...state.comments, payload.comments],
                 loading: false
             }
+        case DELETE_COMMENT:
+            return {
+                ...state,
+                comments: state.comments.filter(comment => comment._id !== payload.cid),
+                loading: false
+            }
         case UPDATE_COMMENT_LIKES:
             return {
                 ...state,
@@ -86,6 +94,13 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 comments: state.comments.map(comment => comment._id === payload.cid ? { ...comment, replies: payload.comment.reply } : comment),
+                loading: false
+            }
+        case DELETE_REPLY:
+            const deleteReply = (comment) => comment.replies.filter(reply => reply._id !== payload.rid);
+            return {
+                ...state,
+                comments: state.comments.map(comment => comment._id === payload.cid ? {...comment, replies: deleteReply(comment) } : comment),
                 loading: false
             }
         case UPDATE_REPLY_LIKES:

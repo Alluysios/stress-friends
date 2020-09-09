@@ -3,7 +3,6 @@ const Post = require('../models/Post');
 const { protect } = require('../middleware/auth');
 const { resizeUploadedImages, uploadImages } = require('../middleware/uploader');
 const commentRouter = require('./comment');
-const { populate } = require('../models/Post');
 
 const router = express.Router();
 
@@ -25,13 +24,14 @@ router.get('/', protect, async (req, res) => {
             }
         }
     }).populate({ path: 'user', select:'firstname lastname image' }).sort({ date: -1 });
+
     res.status(200).json({
         posts
     });
 });
 
 // @route   GET /
-// @desc    Get all Posts
+// @desc    Get Post by id
 // @access  Private
 router.get('/:pid', protect, async (req, res) => {
     const post = await Post.findById(req.params.pid).populate({
@@ -57,9 +57,9 @@ router.get('/:pid', protect, async (req, res) => {
 router.post('/', 
     protect, 
     uploadImages,
-    resizeUploadedImages, 
+    resizeUploadedImages,
     async (req, res) => {
-    
+    console.log(req.body);
     // Insert user to body
     if(!req.body.user) req.body.user = req.user; 
 
@@ -75,6 +75,9 @@ router.post('/',
 // @desc    Edit Post
 // @access  Private
 router.patch('/:pid', protect, async (req, res) => {
+    const post = await Post.findById(req.params.pid);
+    if(post.user.toString() !== req.user._id.toString()) return res.status(401).json({ errors: [{ msg: 'You don\'t have the permission to perform the action' }]});
+
     const posts = await Post.findByIdAndUpdate(req.params.pid, req.body, {
         new: true
     });
@@ -88,6 +91,9 @@ router.patch('/:pid', protect, async (req, res) => {
 // @desc    Delete Post
 // @access  Private
 router.delete('/:pid', protect, async (req, res) => {
+    const post = await Post.findById(req.params.pid);
+    if(post.user.toString() !== req.user._id.toString()) return res.status(401).json({ errors: [{ msg: 'You don\'t have the permission to perform the action' }]});
+
     await Post.findByIdAndDelete(req.params.pid);
 
     res.status(204).json();

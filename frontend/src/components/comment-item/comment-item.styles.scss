@@ -62,30 +62,4 @@
     &-content {
         min-width: 100%;
     }
-
-    &-reply {
-        min-width: 100%;
-        border-radius: 12px;
-        margin-left: 3.5rem;
-
-        &-user {
-            width: 3.5rem;
-            height: 3.5rem;
-            border-radius: 50%;
-            align-self: flex-start;
-            margin-top: 2px;
-        }
-
-        &-name {
-            display: block;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        &-date {
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: #8a8a8a;
-        }
-    }
 }

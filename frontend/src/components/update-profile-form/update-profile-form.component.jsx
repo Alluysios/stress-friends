@@ -6,13 +6,17 @@ import { updateProfile } from '../../actions/auth.action';
 import FormButton from '../form-button/form-button.component';
 import FormInput from '../form-input/form-input.component';
 
-const AccountInfoForm = ({ updateProfile }) => {
-    
+const AccountInfoForm = ({ updateProfile, auth: { user } }) => {
     const [formData, setFormData] = useState({
-        firstname: '',
-        lastname: '',
-        email: ''
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        hobby: user.hobby,
+        bio: user.bio,
+        image: user.image
     });
+
+    const { firstname, lastname, email, image, bio, hobby } = formData;
     
     const handleInput = e => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,7 +24,19 @@ const AccountInfoForm = ({ updateProfile }) => {
     
     const handleSubmit = e => {
         e.preventDefault();
-        updateProfile(formData)
+        const profileFormData = new FormData();
+        profileFormData.append('firstname', firstname)
+        profileFormData.append('lastname', lastname)
+        profileFormData.append('email', email)
+        profileFormData.append('bio', bio)
+        profileFormData.append('hobby', hobby)
+        profileFormData.append('image', image)
+        
+        updateProfile(profileFormData)
+    }
+
+    const handleFileChange = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.files[0] })
     }
 
     return (
@@ -31,6 +47,8 @@ const AccountInfoForm = ({ updateProfile }) => {
                 name='firstname'
                 id='firstname'
                 label='Firstname'
+                value={firstname}
+                fullWidth={true}
                 onChange={handleInput}
             />
             <FormInput 
@@ -38,6 +56,8 @@ const AccountInfoForm = ({ updateProfile }) => {
                 name='lastname'
                 id='lastname'
                 label='Lastname'
+                value={lastname}
+                fullWidth={true}
                 onChange={handleInput}
             />
             <FormInput 
@@ -45,7 +65,37 @@ const AccountInfoForm = ({ updateProfile }) => {
                 name='email'
                 id='email'
                 label='Email'
+                value={email}
+                fullWidth={true}
                 onChange={handleInput}
+            />
+            <FormInput 
+                type='text'
+                name='hobby'
+                id='hobby'
+                label='Hobby'
+                placeholder='Make people laugh.....'
+                value={hobby}
+                fullWidth={true}
+                onChange={handleInput}
+            />
+            <FormInput 
+                type='text'
+                name='bio'
+                id='bio'
+                label='Bio'
+                placeholder='I always hope for a better world.....'
+                value={bio}
+                fullWidth={true}
+                onChange={handleInput}
+            />
+            <FormInput 
+                type='file'
+                name='image'
+                id='image'
+                image={image}
+                label='Profile Image'
+                onChange={handleFileChange}
             />
             <FormButton 
                 value='Update Account'
@@ -55,4 +105,8 @@ const AccountInfoForm = ({ updateProfile }) => {
     )
 }
 
-export default connect(null, {updateProfile})(AccountInfoForm);
+const mapStateToProps = state => ({
+    auth: state.auth
+})
+
+export default connect(mapStateToProps, {updateProfile})(AccountInfoForm);

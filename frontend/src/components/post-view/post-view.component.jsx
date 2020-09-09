@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import Moment from 'react-moment';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -14,7 +14,7 @@ const PostView = ({ getPost, getAllComments, post: { post, comments }, auth: { u
     useEffect(() => {
         getPost(match.params.pid);
         getAllComments();
-    }, [getPost])
+    }, [getPost, getAllComments, match.params.pid])
     return (
         !post ? <div>Loading...</div> 
         :

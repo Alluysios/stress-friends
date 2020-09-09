@@ -1,9 +1,8 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
+/* if authenticated render the component or else redirect to auth */
 const ProtectedRoute = ({ component: Component, auth, ...rest}) => {
-    {/* if authenticated render the component or else redirect to auth */}
     return <Route 
         {...rest}
         render={props => (

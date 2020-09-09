@@ -27,7 +27,6 @@ const Profile = ({ getAllPosts, posts: { posts, comments }, auth: { user } }) =>
                 <div className="profile-about">
                     <h4 className='profile-about-heading'>About me</h4>
                     <div className='profile-about-item'>Joined: {user.date}</div>
-                    <div className='profile-about-item'>Status: {user.status}</div>
                     <div className='profile-about-item'>Hobby: {user.hobby.join(',')}</div>
                 </div>
                 <div className="profile-posts">

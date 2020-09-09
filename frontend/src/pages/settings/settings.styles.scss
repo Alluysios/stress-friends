@@ -1,4 +1,8 @@
 .setting {
     background-color: #292929;
     padding: 5rem;
+
+    @media only screen and (max-width: 896px) {
+        padding: 2rem;
+    }
 }

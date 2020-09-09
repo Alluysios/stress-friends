@@ -29,8 +29,6 @@ exports.resizeUploadedImages = async(req, res, next) => {
         } catch(err) {
             console.log(err)
         }
-
-        next();
     }
     if(req.files === undefined) return next();
     if(req.files.images !== undefined && req.files.images) {

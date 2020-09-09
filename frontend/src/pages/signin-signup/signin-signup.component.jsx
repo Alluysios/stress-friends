@@ -2,7 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import './signin-signup.styles.scss';
-import backgroundImage from './happy.jpg';
+import backgroundImg from './happy.jpg';
 
 // Components
 import SignUp from '../../components/signup/signup.component';
@@ -19,7 +19,7 @@ const SignInSignUp = ({ auth }) => {
                     <div className="flex-container">
                         <div className="image-container">
                             <h1 className='moto'>“Friendship is the hardest thing in the world to explain. It’s not something you learn in school. But if you haven’t learned the meaning of friendship, you really haven’t learned anything.”</h1>
-                            <img src={backgroundImage} alt="background image" className='background-image'/>
+                            <img src={backgroundImg} className='background-image'alt='Friends gathering together to see the stars' />
                         </div>
                         <div className="auth">
                             <p>

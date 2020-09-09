@@ -31,6 +31,7 @@ const UpdatePasswordForm = ({ changedPassword }) => {
                 type='password'
                 name='currentPassword'
                 id='currentPassword'
+                placeholder="********"
                 label='Current Password'
                 onChange={handleInput}
             />
@@ -39,6 +40,7 @@ const UpdatePasswordForm = ({ changedPassword }) => {
                 name='newPassword'
                 id='newPassword'
                 label='New Password'
+                placeholder="********"
                 onChange={handleInput}
             />
             <FormInput 
@@ -46,6 +48,7 @@ const UpdatePasswordForm = ({ changedPassword }) => {
                 name='passwordConfirm'
                 id='passwordConfirm'
                 label='Confirm Password'
+                placeholder="********"
                 onChange={handleInput}
             />
             <FormButton 

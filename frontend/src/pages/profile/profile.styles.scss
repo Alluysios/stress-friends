@@ -30,10 +30,16 @@
         flex: 1 0 28%;
         font-size: 1.5rem;
         padding: 0 3rem;
+        border-radius: 12px;
         margin-right: 2%;
         background: #292929;
         height: 20rem;
         color: #FFFFFF;
+
+        @media only screen and (max-width: 496px) {
+            margin-bottom: 2rem;
+            margin-right: 0;
+        }
 
         &-heading {
             font-size: 1.7rem;

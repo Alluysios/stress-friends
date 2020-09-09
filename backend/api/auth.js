@@ -14,10 +14,10 @@ const { protect } = require('../middleware/auth');
  */
 const sendToken = (user, statusCode, res) => {
     // Get user id
-    const { id } = user;
+    const { _id } = user;
 
     // JWT Sign for token
-    const token = jwt.sign({ id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ _id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN
     });
 
@@ -90,9 +90,11 @@ router.post('/signIn', async(req, res) => {
     if(!email || !password) return res.status(400).json({ errors: [{ msg: 'Incorrect email or password' }]});
 
     // check if user exist and password is correct
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select('+password');
+    if(!user) {
+        return res.status(401).json({ errors: [{ msg: 'Incorrect email or password' }] });
+    }
     if(!user || !await user.comparePassword(password, user.password)) return res.status(400).json({ errors: [{ msg: 'Incorrect email or password' }]});
-
     // send token
     sendToken(user, 200, res);
 });

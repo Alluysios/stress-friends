@@ -17,11 +17,17 @@ const PostForm = ({ createPost }) => {
     }
     
     const handleSubmit = e => {
+        const postFormData = new FormData();
+        postFormData.append('content', formData.content);
+        for(const key of Object.keys(formData.images)) {
+            postFormData.append('images', formData.images[key])
+        }
         e.preventDefault();
-        createPost(formData);
+        createPost(postFormData);
     }
 
     const handleFileChange = e => {
+        console.log(e.target.files);
         setFormData({ ...formData, [e.target.name]: e.target.files })
     }
 

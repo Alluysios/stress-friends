@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import Moment from 'react-moment';
 import "./comment-item.styles.scss";
 
-import CommentReplyForm from '../comment-reply-form/comment-reply-form.component';
+import ReplyForm from '../reply-form/reply-form.component.jsx';
+import ReplyItem from '../reply-item/reply-item.component.jsx';
 
-import { updateCommentLike, updateReplyLike } from '../../actions/posts.action';
+import { updateCommentLike, updateReplyLike, deleteComment, deleteReply } from '../../actions/posts.action';
 
-const CommentItem = ({ comment, user, auth, updateCommentLike, updateReplyLike }) => {
+const CommentItem = ({ comment, user, auth, updateCommentLike, updateReplyLike, deleteComment, deleteReply }) => {
     const [show, setShow] = useState(false);
     return (
         <Fragment>
@@ -35,8 +36,7 @@ const CommentItem = ({ comment, user, auth, updateCommentLike, updateReplyLike }
                             {
                                 comment.user._id === auth.user._id && 
                                 <Fragment>
-                                    <span className="options-small">edit</span>
-                                    <span className="options-small">delete</span>
+                                    <span className="options-small" onClick={() => deleteComment(comment.post, comment._id)}>delete</span>
                                 </Fragment>
                             }
                             
@@ -45,43 +45,12 @@ const CommentItem = ({ comment, user, auth, updateCommentLike, updateReplyLike }
                     </div>
                 </div>
                
-                <CommentReplyForm show={show} pid={comment.post} cid={comment._id} />
+                <ReplyForm show={show} pid={comment.post} cid={comment._id} />
                 {   
                     !comment.replies ? <div> Loading... </div> :
                     comment.replies.map(reply =>
                         <Fragment key={reply._id}>
-                            <div className="comment-reply">
-                                <div className="comment-user">
-                                    <img src={`/uploads/users/${reply.user.image}`} alt={reply.user.firstname} className="comment-reply-user"/>
-                                    <div className="group">
-                                        <div className="comment-box">
-                                            <span className="comment-reply-name">{`${reply.user.firstname} ${reply.user.lastname}`}</span>
-                                            <span className='comment-content'>
-                                                {reply.content}
-                                            </span>
-                                            {
-                                                reply.likes.length > 0 && <span className='comment-like-count'>{reply.likes.length}</span>
-                                            }
-                                        </div>
-                                        <div className="comment-options">
-                                            {
-                                                reply.likes.includes(auth.user._id) ?
-                                                    <span className="options-small" onClick={() => updateReplyLike(comment._id, reply._id)}>unlike</span>
-                                                    :
-                                                    <span className="options-small" onClick={() => updateReplyLike(comment._id, reply._id)}>like</span>
-                                            }
-                                            {
-                                                reply.user._id === auth.user._id && 
-                                                <Fragment>
-                                                    <span className="options-small">edit</span>
-                                                    <span className="options-small">delete</span>
-                                                </Fragment>
-                                            }
-                                            <Moment className='posts-user-date' fromNow>{reply.date}</Moment>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <ReplyItem comment={comment} reply={reply} />
                         </Fragment>
                     )
                 }
@@ -94,4 +63,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { updateCommentLike, updateReplyLike })(CommentItem);
+export default connect(mapStateToProps, { updateCommentLike, updateReplyLike, deleteComment, deleteReply })(CommentItem);

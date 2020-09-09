@@ -59,6 +59,16 @@ app.use('/api/v1/posts', postRouter);
 app.use('/api/v1/comments', commentRouter);
 app.use('/api/v1/users', userRouter);
 
+// Serve static files
+if(process.env.NODE_ENV === 'production') {
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    })
+}
+
+
 // Global error handling this means the response cycle didn't make it if we reach this point.
 app.all('*', (req, res, next) => {
     const err = new Error(`Can't find ${req.originalUrl} on this server!`);

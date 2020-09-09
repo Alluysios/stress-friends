@@ -19,11 +19,7 @@ const userSchema = new mongoose.Schema({
     bio: String,
     hobby: [String],
     status: {
-        type: String,
-        enum: {
-            values: ['Married', 'Happily Married', 'Single', 'Just Divorced', 'Complicated', 'In a relationship', 'I Hate My Life'],
-            message: 'Status available: Married, Happily Married, Single, Just Divorced, Complicated, In a relationship, I Hate My Life'
-        }
+        type: String
     },
     email: {
         type: String,
@@ -40,7 +36,10 @@ const userSchema = new mongoose.Schema({
         max: 16,
         required: true
     },
-    profileImage: String
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
 userSchema.methods.comparePassword = async function(passwordInput, userPassword) {

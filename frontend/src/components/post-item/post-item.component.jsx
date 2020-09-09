@@ -7,9 +7,9 @@ import './post-item.styles.scss';
 import CommentItem from '../comment-item/comment-item.component';
 import CommentForm from '../comment-form/comment-form.component';
 
-import { updatePostLike } from '../../actions/posts.action';
+import { updatePostLike, deletePost } from '../../actions/posts.action';
 
-const PostItem = ({ post, comments, updatePostLike, auth }) => {
+const PostItem = ({ post, comments, updatePostLike, deletePost, auth }) => {
     const { user } = post;
     
     return (
@@ -23,10 +23,9 @@ const PostItem = ({ post, comments, updatePostLike, auth }) => {
                 <div className='posts-owner'>
                     {
                         post.user._id === auth.user._id && <Fragment>
-                            <span className='btn btn-edit'>Edit</span>
-                            <span className='btn btn-delete'>Delete</span>
+                            <span className='btn btn-delete' onClick={() => deletePost(post._id)}>Delete</span>
                         </Fragment>
-                    } 
+                    }
                 </div>
             </div>
             
@@ -49,7 +48,7 @@ const PostItem = ({ post, comments, updatePostLike, auth }) => {
                 <span className='posts-like-count'>Likes: {post.likes.length}</span>
                 <div className='posts-options'>
                     {
-                        post.likes.includes(user._id) ? 
+                        post.likes.includes(auth.user._id) ? 
                         <span className='posts-options-like' onClick={() => updatePostLike(post._id)}>Unlike</span>
                         :
                         <span className='posts-options-like' onClick={() => updatePostLike(post._id)}>Like</span>
@@ -77,4 +76,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 })
 
-export default connect(mapStateToProps, { updatePostLike })(PostItem);
+export default connect(mapStateToProps, { updatePostLike, deletePost })(PostItem);
