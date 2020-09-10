@@ -4,11 +4,11 @@
   "description": "Social Media to relieve stress for stress people <3",
   "main": "app.js",
   "scripts": {
-    "frontend": "npm start --prefix frontend",
+    "client": "npm start --prefix client",
     "server": "nodemon server.js",
     "start": "node server.js",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
