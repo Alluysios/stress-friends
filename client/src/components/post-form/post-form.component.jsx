@@ -27,7 +27,6 @@ const PostForm = ({ createPost }) => {
     }
 
     const handleFileChange = e => {
-        console.log(e.target.files);
         setFormData({ ...formData, [e.target.name]: e.target.files })
     }
 

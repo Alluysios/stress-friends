@@ -59,7 +59,6 @@ router.post('/',
     uploadImages,
     resizeUploadedImages,
     async (req, res) => {
-    console.log(req.body);
     // Insert user to body
     if(!req.body.user) req.body.user = req.user; 
 

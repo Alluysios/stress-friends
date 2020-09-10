@@ -29,7 +29,6 @@ router.patch('/updateProfile',
     uploadImages,
     resizeUploadedImages,
     async(req, res) => {
-        console.log(req.body);
     if(!req.body.image) req.body.image = 'default.jpg';
     const { hobby } = req.body;
 
