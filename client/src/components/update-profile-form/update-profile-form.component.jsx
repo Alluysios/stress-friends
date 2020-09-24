@@ -5,8 +5,9 @@ import { updateProfile } from '../../actions/auth.action';
 
 import FormButton from '../form-button/form-button.component';
 import FormInput from '../form-input/form-input.component';
+import ToastMessage from '../toast-message/toast-message.component';
 
-const AccountInfoForm = ({ updateProfile, auth: { user } }) => {
+const AccountInfoForm = ({ updateProfile, auth: { errors, user, success } }) => {
     const [formData, setFormData] = useState({
         firstname: user.firstname,
         lastname: user.lastname,
@@ -25,12 +26,12 @@ const AccountInfoForm = ({ updateProfile, auth: { user } }) => {
     const handleSubmit = e => {
         e.preventDefault();
         const profileFormData = new FormData();
-        profileFormData.append('firstname', firstname)
-        profileFormData.append('lastname', lastname)
-        profileFormData.append('email', email)
-        profileFormData.append('bio', bio)
-        profileFormData.append('hobby', hobby)
-        profileFormData.append('image', image)
+        profileFormData.append('firstname', firstname);
+        profileFormData.append('lastname', lastname);
+        profileFormData.append('email', email);
+        profileFormData.append('bio', bio);
+        profileFormData.append('hobby', hobby);
+        profileFormData.append('image', image);
         
         updateProfile(profileFormData)
     }
@@ -42,6 +43,8 @@ const AccountInfoForm = ({ updateProfile, auth: { user } }) => {
     return (
         <form className='form-info' onSubmit={handleSubmit}>
             <h2>Account Info</h2>
+            { errors.err && errors.type === 'profile' ? <ToastMessage msg={errors.err} /> : null }
+            { success ? <ToastMessage msg={success} /> : null }
             <FormInput 
                 type='text'
                 name='firstname'

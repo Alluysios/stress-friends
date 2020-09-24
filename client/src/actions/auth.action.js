@@ -40,11 +40,12 @@ export const signIn = (formData, history) => async dispatch => {
     }
 }
 
-export const signUp = formData => async dispatch => {
+export const signUp = (formData, history) => async dispatch => {
     try {
         const res = await axios.post('/api/v1/auth/signUp', formData);
         dispatch({ type: SIGN_UP, payload: res.data });
-        userLoad();
+        dispatch(userLoad());
+        if(res.status === 200) history.push('/');
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: AUTH_ERROR, payload: errors });
@@ -56,10 +57,10 @@ export const signOut = () => dispatch => {
 }
 
 export const updateProfile = formData => async dispatch => {
-    console.log(formData);
     try {
         const res = await axios.patch('/api/v1/users/updateProfile', formData);
         dispatch({ type: UPDATE_PROFILE, payload: res.data })
+        dispatch({ type: 'PROFILE_UPDATED', payload: 'Profile updated!' });
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: AUTH_ERROR, payload: errors });
@@ -68,8 +69,9 @@ export const updateProfile = formData => async dispatch => {
 
 export const changedPassword = formData => async dispatch => {
     try {
-        const res = await axios.patch('/users/changePassword', formData);
+        const res = await axios.patch('/api/v1/users/changePassword', formData);
         dispatch({ type: CHANGED_PASSWORD, payload: res.data })
+        dispatch({ type: 'PASSWORD_UPDATED', payload: 'Password updated!' });
     } catch (err) {
         const errors = err.response.data.errors;
         dispatch({ type: AUTH_ERROR, payload: errors });

@@ -1,6 +1,7 @@
-import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import './signup.styles.scss';
+import { withRouter } from 'react-router-dom';
 
 // Components
 import FormButton from '../form-button/form-button.component';
@@ -9,7 +10,8 @@ import FormInput from '../form-input/form-input.component';
 // Actions
 import { signUp } from '../../actions/auth.action';
 
-const SignUp = ({ signUp }) => {
+const SignUp = ({ signUp, history }) => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         firstname: '',
         lastname: '',
@@ -24,8 +26,14 @@ const SignUp = ({ signUp }) => {
     
     const handleSubmit = e => {
         e.preventDefault();
-        signUp(formData);
-    }
+        signUp(formData, history);
+    }  
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: 'CLEAR_ERROR_MESSAGES' })
+        }
+    }, [dispatch])
 
     return (
         <Fragment>
@@ -71,7 +79,7 @@ const SignUp = ({ signUp }) => {
                     onChange={handleInput}
                 />
                 <FormButton 
-                    value='Sign In'
+                    value='Sign Up'
                     btnClass='primary'
                     fluid={true}
                 />
@@ -80,4 +88,4 @@ const SignUp = ({ signUp }) => {
     );
 }
 
-export default connect(null, { signUp })(SignUp);
+export default withRouter(connect(null, { signUp })(SignUp));

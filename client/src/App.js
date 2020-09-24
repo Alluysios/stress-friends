@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import './App.styles.scss';
 import { Route, Switch } from 'react-router-dom';
 import Cookies from 'js-cookie';
@@ -18,12 +18,10 @@ import setAuthToken from './utils/setAuthToken';
 let token = Cookies.get('token');
 if(token) {
     setAuthToken(token);
+    store.dispatch(userLoad());
 }
 
 const App = () => {
-    useEffect(() => {
-        store.dispatch(userLoad());
-    }, [])
     return (
         <Fragment>
             <Header />

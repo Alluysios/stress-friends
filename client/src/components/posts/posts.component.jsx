@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import './posts.styles.scss';
 
@@ -8,12 +8,7 @@ import PostItem from '../post-item/post-item.component';
 // Actions
 import { getAllPosts, getAllComments } from '../../actions/posts.action';
 
-const Posts = ({ getAllPosts, getAllComments, posts: { posts, comments }, auth: { user } }) => {
-    useEffect(() => {
-        getAllComments();
-        getAllPosts();
-    }, [getAllPosts, getAllComments])
-
+const Posts = ({ posts: { posts, comments }, auth: { user } }) => {
     return (
         <Fragment>
             <div className='flex'>

@@ -7,6 +7,7 @@ import backgroundImg from './happy.jpg';
 // Components
 import SignUp from '../../components/signup/signup.component';
 import SignIn from '../../components/signin/signin.component';
+import ToastMessage from '../../components/toast-message/toast-message.component.jsx';
 
 const SignInSignUp = ({ auth }) => {
     const [toggleBtn, setToggleBtn] = useState(true);
@@ -31,6 +32,7 @@ const SignInSignUp = ({ auth }) => {
                                 <span onClick={() => setToggleBtn(true)} className='auth-toggle auth-toggle-signin'> Sign In? </span>
                                 <span onClick={() => setToggleBtn(false)} className='auth-toggle auth-toggle-signup'> Sign Up? </span>
                             </div>
+                            { auth.errors !== null ? <ToastMessage msg={auth.errors} /> : null }
                             {
                                 toggleBtn ? <SignIn /> : <SignUp />
                             }

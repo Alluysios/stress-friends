@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import './post-form.styles.scss';
 
 import { createPost } from '../../actions/posts.action';
@@ -7,6 +7,14 @@ import { createPost } from '../../actions/posts.action';
 import FormButton from '../form-button/form-button.component';
 
 const PostForm = ({ createPost }) => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        return () => {
+            dispatch({ type: 'CLEAR_ERROR_MESSAGES' })
+        }
+    }, [dispatch])
+
     const [formData, setFormData] = useState({
         content: '',
         images: []
@@ -24,6 +32,7 @@ const PostForm = ({ createPost }) => {
         }
         e.preventDefault();
         createPost(postFormData);
+        setFormData({ ...formData, content: '' });
     }
 
     const handleFileChange = e => {
@@ -34,7 +43,7 @@ const PostForm = ({ createPost }) => {
         <Fragment>
             <form className='form' onSubmit={handleSubmit}>
                 <div className="form-group-container">
-                    <textarea name="content" id="content" className="content" placeholder="Write something..." onChange={handleInput}></textarea>
+                    <textarea name="content" id="content" value={formData.content} className="content" placeholder="Write something..." onChange={handleInput}></textarea>
                     <div className="group-buttons">
                         <input type="file" name='images' className='file' onChange={handleFileChange} multiple />
                         <FormButton 

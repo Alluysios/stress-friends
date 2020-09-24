@@ -61,17 +61,22 @@ router.post('/signUp', [
     // email must be an email
     check('email').isEmail().withMessage('not recognize as email'),
     // password in only min of 6 char and max of 16 char
-    check('password').isLength({ min: 6, max: 16 }).withMessage('must be at least minimum of 6 char and max of 16')
+    check('password').isLength({ min: 6, max: 16 }).withMessage('Password must be at least minimum of 6 char and max of 16')
 ], async(req, res) => {
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+
     // Check if user exist and return error msg if it does
     const checkUser = await User.findOne({ email: req.body.email });
     if(checkUser) return res.status(400).json({ errors: [{ msg: 'Email already exist' }]})
     // Sign Up User
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, passwordConfirm } = req.body;
+    console.log(password!==passwordConfirm);
+    console.log(password, passwordConfirm);
+    if(password !== passwordConfirm) return res.status(401).json({ errors: [{ msg: 'Password not the same.' }]});
+    
     const user = await User.create({
         firstname, lastname, email, password
     });

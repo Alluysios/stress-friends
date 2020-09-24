@@ -60,6 +60,17 @@ export default (state = INITIAL_STATE, action) => {
                 ...state,
                 errors: payload
             }
+        case 'CLEAR_ERROR_MESSAGES':
+            return {
+                ...state,
+                errors: []
+            }
+        case 'PROFILE_UPDATED':
+        case 'PASSWORD_UPDATED':
+            return {
+                ...state,
+                success: payload
+            }
         default:
             return state;
     }

@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { Fragment, useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import './signin.styles.scss';
 
@@ -10,6 +10,14 @@ import FormInput from '../form-input/form-input.component';
 import { signIn } from '../../actions/auth.action';
 
 const SignIn = ({ signIn, history }) => {
+    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        return () => {
+            dispatch({ type: 'CLEAR_ERROR_MESSAGES' })
+        }
+    }, [dispatch])
+
     const [formData, setFormData] = useState({
         email: '',
         password: ''

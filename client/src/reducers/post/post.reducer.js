@@ -67,9 +67,6 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 comments: payload.comments,
-                postComments: {
-                    replies: payload.reply
-                },
                 loading: false
             }
         case CREATE_COMMENT:
@@ -120,6 +117,11 @@ export default (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 errors: payload
+            }
+        case 'CLEAR_ERROR_MESSAGES':
+            return {
+                ...state,
+                errors: []
             }
         default:
             return state;
